@@ -70,14 +70,14 @@ describe('Trip', () => {
   });
 
   it('should be able to return it\'s destination', () => {
-    expect(trips[0].findDestination()).to.eql(destinations[2]);
-    expect(trips[1].findDestination()).to.eql(destinations[0]);
-    expect(trips[2].findDestination()).to.eql(destinations[1]);
+    expect(trips[0].findDestination(destinations)).to.eql(destinations[2]);
+    expect(trips[1].findDestination(destinations)).to.eql(destinations[0]);
+    expect(trips[2].findDestination(destinations)).to.eql(destinations[1]);
   });
 
   it('should be able to calculate it\'s cost', () => {
-    expect(trips[0].calculateCost()).to.eql(1990);
-    expect(trips[1].calculateCost()).to.eql(8300);
-    expect(trips[2].calculateCost()).to.eql(9920);
+    expect(trips[0].calculateCost(destinations)).to.eql(1990);
+    expect(trips[1].calculateCost(destinations)).to.eql(8300);
+    expect(trips[2].calculateCost(destinations)).to.eql(9920);
   });
 });
