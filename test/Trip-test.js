@@ -29,7 +29,7 @@ describe('Trip', () => {
 
   it('should have a user id', () => {
     expect(trips[0].userID).to.eq(2);
-    expect(trips[1].userID).to.eq(3);
+    expect(trips[1].userID).to.eq(1);
     expect(trips[2].userID).to.eq(1);
   });
 
@@ -60,7 +60,7 @@ describe('Trip', () => {
   it('should have a status', () => {
     expect(trips[0].status).to.eq('approved');
     expect(trips[1].status).to.eq('pending');
-    expect(trips[2].status).to.eq('pending');
+    expect(trips[2].status).to.eq('approved');
   });
 
   it('should have an empty array for suggested activities', () => {
