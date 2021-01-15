@@ -36,7 +36,7 @@ const tripData = [
   },
   {
     "id": 2,
-    "userID": 3,
+    "userID": 1,
     "destinationID": 1,
     "travelers": 5,
     "date": "2020/10/04",
@@ -51,9 +51,16 @@ const tripData = [
     "travelers": 4,
     "date": "2020/05/22",
     "duration": 17,
-    "status": "pending",
+    "status": "approved",
     "suggestedActivities": []
   }
 ];
 
-  export {destinationData, tripData};
+const travelerData =
+  {
+    "id": 1,
+    "name": "Ham Leadbeater",
+    "travelerType": "relaxer"
+  };
+
+  export {destinationData, tripData, travelerData};
