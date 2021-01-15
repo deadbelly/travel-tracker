@@ -15,15 +15,40 @@ import './images/turing-logo.png'
 let user;
 let destinations;
 
-window.addEventListener('load', getAllData)
+const usernameInput = document.querySelector('.username-input');
+const passwordInput = document.querySelector('.password-input');
+const loginButton = document.querySelector('.login-button');
 
-function getAllData() {
-  Promise.all(fetchRequests.getAllData(1))
+// window.addEventListener('load', getAllData)
+loginButton.addEventListener('click', fetchAndLoadDataModel)
+
+function fetchAndLoadDataModel() {
+  event.preventDefault;
+  const username = usernameInput.value;
+  const id = username.match(/\d+/)[0]
+  const password = passwordInput.value;
+
+  Promise.all(fetchRequests.getAllData(id))
     .then(responses => {
-      user = new User(responses[0], responses[1].trips);
-      destinations = responses[2].destinations.map(data => new Destination(data));
-      console.log(user)
-      console.log(user.trips)
-      console.log(destinations)
+      if (checkLoginCredentials(responses[0], username, password, id)) {
+        user = new User(responses[0], responses[1].trips);
+        destinations = responses[2].destinations.map(data => new Destination(data));
+        console.log(user)
+        console.log(user.trips)
+        console.log(destinations)
+      } else if (responses[0].message) {
+        alert('LOGIN FAILED \ninvalid username');
+      } else {
+        alert('LOGIN FAILED \ninvalid password');
+      }
     });
 };
+
+
+
+
+function checkLoginCredentials(response, username, password, id) {
+  if(username === `traveler${id}` && password === 'travel2020' && response.id == id) {
+    return true
+  };
+}
