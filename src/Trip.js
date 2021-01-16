@@ -19,6 +19,13 @@ class Trip {
     return ((destination.estimatedFlightCostPerPerson * this.travelers)
               + ((destination.estimatedLodgingCostPerDay * this.travelers) * this.duration));
   }
+
+  isPending() {
+    if(this.status === 'pending'){
+      return this.status
+    }
+    return ''
+  }
 }
 
 export default Trip
