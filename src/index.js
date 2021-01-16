@@ -11,7 +11,7 @@ import domUpdates from './domUpdates';
 import './css/base.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+import './images/profpic.png'
 
 let user;
 let destinations;
@@ -42,6 +42,7 @@ function fetchAndLoadDataModel() {
         domUpdates.toggleHidden(main);
         domUpdates.toggleHidden(navBar);
         displayAllTrips();
+        domUpdates.displayNavBar(user, navBar);
         console.log(user)
         console.log(user.trips)
         console.log(destinations)
