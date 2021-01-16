@@ -25,13 +25,12 @@ const domUpdates = {
   },
 
   displayNavBar(user, navBar){
-    console.log(user.returnTripsThisYear())
     navBar.insertAdjacentHTML('afterbegin',
     `<img src="./images/profpic.png" alt="user's profile picture">
     <h2>${user.name}</h2>
     <h3>Welcome back, traveler!</h3>
-    <h3>Approved Trips: ${user.returnTrips('approved').length}
-      <br>Pending Trips: ${user.returnTrips('pending').length}
+    <h3>Approved Trips: ${user.returnTripsByStatus('approved').length}
+      <br>Pending Trips: ${user.returnTripsByStatus('pending').length}
       <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
     <button type="button" name="button">plan a trip!</button>`)
   }
