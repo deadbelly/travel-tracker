@@ -1,0 +1,11 @@
+@mixin setDimensions($height, $width) {
+  height: $height;
+  width: $width;
+}
+
+@mixin displayFlex($flex-direction, $justify-content, $flex-wrap) {
+  display: flex;
+  flex-direction: $flex-direction;
+  justify-content: $justify-content;
+  flex-wrap: $flex-wrap
+}

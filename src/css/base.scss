@@ -1,7 +1,69 @@
-/* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-;
+@import 'variables';
+
+html {
+  font-family: "Lato", sans-serif;
+}
 
 body {
-  background: $primary-background;
+  display: flex;
+  height: 98vh;
+  width: 98%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.navbar {
+  border: solid;
+  border-color: black;
+  width: 50%;
+}
+
+main {
+  border: solid;
+  border-color: black;
+  @include displayFlex(column, flex-start, nowrap);
+  width: 100%;
+  overflow: hidden;
+}
+
+.trip-list {
+  @include displayFlex(column, flex-start, nowrap);
+  overflow-y: scroll;
+}
+
+.trip {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  @include setDimensions(20%, 100%);
+  transition: .8s ease;
+  overflow: hidden;
+  & button {
+    background: none;
+    border: none;
+    top: 1%;
+    bottom: 1%;
+    & .info-block {
+      position: absolute;
+      bottom: 5%;
+      right: 3%;
+      background-color: black;
+      color: white;
+      padding-left: 5%;
+      padding-right: 5%;
+      opacity: 85%;
+    }
+  }
+  & img {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    @include setDimensions(auto, 100%);
+  }
+  &:hover {
+    @include setDimensions(40%, 100%);
+  }
 }

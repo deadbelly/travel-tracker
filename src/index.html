@@ -1,15 +1,23 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en-US" dir="ltr">
   <head>
-    <title>Webpack Starter Kit</title>
+    <meta charset="utf-8">
+    <title>Travel Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
   </head>
   <body>
-    <h1>Webpack Starter Kit</h1>
-    <input class="username-input">
-    <input class="password-input">
-    <button class="login-button">login</button>
-    <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
-
-    <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
+    <div class="login-page">
+      <input class="username-input" value="traveler17">
+      <input class="password-input" value="travel2020">
+      <button class="login-button">login</button>
+    </div>
+    <section class="navbar hidden">
+    </section>
+    <main class="hidden">
+      <h1>TRAVEL TRACKER</h1>
+      <section class="trip-list">
+      </section>
+    </main>
   </body>
 </html>
