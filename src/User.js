@@ -1,15 +1,15 @@
 import Trip from './Trip'
 
 class User {
-  constructor(travelerData, tripData) {
+  constructor(travelerData, tripData, destinations) {
     this.id = travelerData.id
     this.name = travelerData.name
     this.travelerType = travelerData.travelerType
-    this.trips = this.generateTrips(tripData)
+    this.trips = this.generateTrips(tripData, destinations)
   }
 
-  generateTrips(tripData) {
-    return this.sortByDate(this.filterTripData(tripData)).map(data => new Trip(data));
+  generateTrips(tripData, destinations) {
+    return this.sortByDate(this.filterTripData(tripData)).map(data => new Trip(data, destinations));
   }
 
   filterTripData(tripData) {
@@ -18,16 +18,23 @@ class User {
 
   sortByDate(tripData) {
     tripData.forEach(trip => trip.date = new Date(trip.date));
-    tripData = tripData.sort((a, b) => b.date - a.date);
-    tripData.forEach(trip => trip.date = trip.date.toDateString());
-    return tripData;
+    return tripData.sort((a, b) => b.date - a.date);
   }
 
   returnTrips(status) {
     return this.trips.filter(trip => trip.status === status);
   }
 
-  
+  returnTripsThisYear() {
+    return this.trips.filter(trip => (new Date().getFullYear() - trip.date.getFullYear()) <= 1);
+  }
+
+  getCostForYear() {
+  return this.returnTripsThisYear().reduce((totalCost, trip) => {
+    totalCost += trip.cost.afterAgent;
+    return totalCost;
+  }, 0);
+  }
 }
 
 export default User;

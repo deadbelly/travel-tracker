@@ -1,5 +1,5 @@
 class Trip {
-  constructor(dataObject) {
+  constructor(dataObject, destinations) {
     this.id = dataObject.id
     this.userID = dataObject.userID
     this.destinationID = dataObject.destinationID
@@ -8,6 +8,7 @@ class Trip {
     this.duration = dataObject.duration
     this.status = dataObject.status
     this.suggestedActivities = dataObject.suggestedActivities
+    this.cost = this.calculateCost(destinations)
   }
 
   findDestination(destinations) {
