@@ -16,8 +16,12 @@ class Trip {
 
   calculateCost(destinations) {
     const destination = this.findDestination(destinations);
-    return ((destination.estimatedFlightCostPerPerson * this.travelers)
-              + ((destination.estimatedLodgingCostPerDay * this.travelers) * this.duration));
+    const flightCost = destination.estimatedFlightCostPerPerson * this.travelers;
+    const lodgingCost = (destination.estimatedLodgingCostPerDay * this.travelers) * this.duration;
+    return {
+      beforeAgent: flightCost + lodgingCost,
+      afterAgent: 1.1 * (flightCost + lodgingCost)
+    }
   }
 
   isPending() {
