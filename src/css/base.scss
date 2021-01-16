@@ -1,7 +1,91 @@
-/* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-;
+@import 'variables';
+
+html {
+  background-color: 	#f9f1f1;
+  font-family: "Lato", sans-serif;
+}
+
+h1 {
+  font-size: 5vmin;
+}
 
 body {
-  background: $primary-background;
+  background-color:#FBFBF8;
+  opacity: 95%;
+  align-self: center;
+  display: flex;
+  height: 98vh;
+  width: 99%;
+}
+
+#blockColorblindContent {
+  display: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.navbar {
+  width: 30%;
+}
+
+main {
+  @include displayFlex(column, flex-start, nowrap);
+  width: 70%;
+  overflow: hidden;
+  text-align: center;
+}
+
+.trip-list {
+  display: inline-block;
+  overflow-y: scroll;
+}
+
+.trip {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  @include setDimensions(22%, 100%);
+  transition: .8s ease;
+  overflow: hidden;
+  & .details{
+    display: none;
+    font-size: 2vmin;
+    text-align: left;
+    line-height: 1vmin;
+  }
+  & button {
+    background: none;
+    border: none;
+    top: 1%;
+    bottom: 1%;
+    & .info-block {
+      font-family: "Lato", sans-serif;
+      position: absolute;
+      bottom: 5%;
+      right: 3%;
+      background-color: black;
+      color: white;
+      padding-left: 5%;
+      padding-right: 5%;
+      opacity: 85%;
+    }
+  }
+  & img {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    @include setDimensions(100%, 100%);
+  }
+  &:hover {
+    @include setDimensions(40%, 100%);
+    & .year {
+      display: none;
+    }
+    & .details {
+      display: block;
+    }
+  }
 }

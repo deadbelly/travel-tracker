@@ -5,6 +5,7 @@ import Trip from './Trip';
 import Destination from './Destination';
 
 import fetchRequests from './fetchRequests';
+import domUpdates from './domUpdates';
 
 // An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
@@ -15,11 +16,16 @@ import './images/turing-logo.png'
 let user;
 let destinations;
 
+const loginPage = document.querySelector('.login-page');
 const usernameInput = document.querySelector('.username-input');
 const passwordInput = document.querySelector('.password-input');
 const loginButton = document.querySelector('.login-button');
 
-// window.addEventListener('load', getAllData)
+const navBar = document.querySelector('.navbar');
+
+const main = document.querySelector('main');
+const tripList = document.querySelector('.trip-list');
+
 loginButton.addEventListener('click', fetchAndLoadDataModel)
 
 function fetchAndLoadDataModel() {
@@ -31,24 +37,37 @@ function fetchAndLoadDataModel() {
   Promise.all(fetchRequests.getAllData(id))
     .then(responses => {
       if (checkLoginCredentials(responses[0], username, password, id)) {
-        user = new User(responses[0], responses[1].trips);
-        destinations = responses[2].destinations.map(data => new Destination(data));
+        generateClasses(responses[0], responses[1], responses[2]);
+        domUpdates.toggleHidden(loginPage);
+        domUpdates.toggleHidden(main);
+        domUpdates.toggleHidden(navBar);
+        displayAllTrips();
         console.log(user)
         console.log(user.trips)
         console.log(destinations)
       } else if (responses[0].message) {
-        alert('LOGIN FAILED \ninvalid username');
+        alert('LOGIN FAILED\ninvalid username');
       } else {
-        alert('LOGIN FAILED \ninvalid password');
+        alert('LOGIN FAILED\ninvalid password');
       }
     });
-};
+}
 
-
+function generateClasses(userData, tripData, destinationData) {
+  user = new User(userData, tripData.trips);
+  destinations = destinationData.destinations.map(data => new Destination(data));
+}
 
 
 function checkLoginCredentials(response, username, password, id) {
   if(username === `traveler${id}` && password === 'travel2020' && response.id == id) {
-    return true
+    return true;
   };
+}
+
+function displayAllTrips() {
+  user.trips.forEach(trip => {
+    console.log(tripList)
+    domUpdates.displayTrip(trip, destinations, tripList)
+  });
 }
