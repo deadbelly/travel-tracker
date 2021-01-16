@@ -21,9 +21,9 @@ const usernameInput = document.querySelector('.username-input');
 const passwordInput = document.querySelector('.password-input');
 const loginButton = document.querySelector('.login-button');
 
-const navBar = document.querySelector('.navbar')
+const navBar = document.querySelector('.navbar');
 
-const main = document.querySelector('main')
+const main = document.querySelector('main');
 const tripList = document.querySelector('.trip-list');
 
 loginButton.addEventListener('click', fetchAndLoadDataModel)
