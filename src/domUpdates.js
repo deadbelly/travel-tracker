@@ -12,8 +12,7 @@ const domUpdates = {
         <img src="${destination.image}"  alt="${destination.alt}">
         <div class="info-block">
           <h2>${destination.destination}</h2>
-          <p class="year">${parseInt(trip.date)}</p>
-          <h3>${trip.isPending()}</h3>
+          <h3 class="pending">${trip.isPending()}</h3>
           <div class="details">
             <p>start date:  ${trip.date}</p>
             <p>duration:  ${trip.duration} days</p>
@@ -23,6 +22,17 @@ const domUpdates = {
         <div>
       </button>
     </article>`);
+  },
+
+  displayNavBar(user, navBar){
+    navBar.insertAdjacentHTML('afterbegin',
+    `<img src="./images/profpic.png" alt="user's profile picture">
+    <h2>${user.name}</h2>
+    <h3>Welcome back, travler!</h3>
+    <h3>Approved Trips: ${user.returnTrips('approved').length}
+      <br>Pending Trips: ${user.returnTrips('pending').length}
+      <br>This year you've spent PLACEHOLDER on Travel</h3>
+    <button type="button" name="button">plan a trip!</button>`)
   }
 };
 

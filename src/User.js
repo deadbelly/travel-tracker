@@ -26,6 +26,8 @@ class User {
   returnTrips(status) {
     return this.trips.filter(trip => trip.status === status);
   }
+
+  
 }
 
 export default User;
