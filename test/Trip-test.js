@@ -63,6 +63,12 @@ describe('Trip', () => {
     expect(trips[2].status).to.eq('approved');
   });
 
+  it('should be able to return a "Pending" status', () => {
+    expect(trips[0].isPending()).to.eq('');
+    expect(trips[1].isPending()).to.eq('pending');
+    expect(trips[2].isPending()).to.eq('');
+  });
+
   it('should have an empty array for suggested activities', () => {
     expect(trips[0].suggestedActivities).to.eql([]);
     expect(trips[1].suggestedActivities).to.eql([]);
@@ -76,8 +82,12 @@ describe('Trip', () => {
   });
 
   it('should be able to calculate it\'s cost', () => {
-    expect(trips[0].calculateCost(destinations)).to.eql(1990);
-    expect(trips[1].calculateCost(destinations)).to.eql(8300);
-    expect(trips[2].calculateCost(destinations)).to.eql(9920);
+    expect(trips[0].calculateCost(destinations)).to.eql({beforeAgent: 1990, afterAgent: 2189});
+    expect(trips[1].calculateCost(destinations)).to.eql({beforeAgent: 8300, afterAgent: 9130});
+    expect(trips[2].calculateCost(destinations)).to.eql({beforeAgent: 9920, afterAgent: 10912});
   });
 });
+
+2189
+9130
+10912
