@@ -29,7 +29,7 @@ const tripData = [
     "userID": 2,
     "destinationID": 3,
     "travelers": 1,
-    "date": "2019/09/16",
+    "date": "2020/09/16",
     "duration": 8,
     "status": "approved",
     "suggestedActivities": []
@@ -39,7 +39,7 @@ const tripData = [
     "userID": 1,
     "destinationID": 1,
     "travelers": 5,
-    "date": "2020/10/04",
+    "date": "2019/10/04",
     "duration": 18,
     "status": "pending",
     "suggestedActivities": []

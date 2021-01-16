@@ -11,7 +11,7 @@ describe('Trip', () => {
 
   beforeEach(() => {
     destinations = destinationData.map(destination => new Destination(destination));
-    trips = tripData.map(trip => new Trip(trip));
+    trips = tripData.map(trip => new Trip(trip, destinations));
   })
   it('should be a function', () => {
     expect(Trip).to.be.a('function');
@@ -46,8 +46,8 @@ describe('Trip', () => {
   });
 
   it('should have a date', () => {
-    expect(trips[0].date).to.eq("2019/09/16");
-    expect(trips[1].date).to.eq("2020/10/04");
+    expect(trips[0].date).to.eq("2020/09/16");
+    expect(trips[1].date).to.eq("2019/10/04");
     expect(trips[2].date).to.eq("2020/05/22");
   });
 
@@ -81,13 +81,9 @@ describe('Trip', () => {
     expect(trips[2].findDestination(destinations)).to.eql(destinations[1]);
   });
 
-  it('should be able to calculate it\'s cost', () => {
-    expect(trips[0].calculateCost(destinations)).to.eql({beforeAgent: 1990, afterAgent: 2189});
-    expect(trips[1].calculateCost(destinations)).to.eql({beforeAgent: 8300, afterAgent: 9130});
-    expect(trips[2].calculateCost(destinations)).to.eql({beforeAgent: 9920, afterAgent: 10912});
+  it('should have a cost breakdown', () => {
+    expect(trips[0].cost).to.eql({beforeAgent: 1990, afterAgent: 2189});
+    expect(trips[1].cost).to.eql({beforeAgent: 8300, afterAgent: 9130});
+    expect(trips[2].cost).to.eql({beforeAgent: 9920, afterAgent: 10912});
   });
 });
-
-2189
-9130
-10912

@@ -21,7 +21,7 @@ class User {
     return tripData.sort((a, b) => b.date - a.date);
   }
 
-  returnTrips(status) {
+  returnTripsByStatus(status) {
     return this.trips.filter(trip => trip.status === status);
   }
 
