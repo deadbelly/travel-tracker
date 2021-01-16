@@ -41,11 +41,11 @@ const domUpdates = {
     document.querySelector('.new-trip-form').insertAdjacentHTML('afterbegin',
     `<select class="destination-list" name="">
     </select>
-    <input type="date" id="start" name="trip-start" min="${new Date().toDateString()}">
-    <input type="date" id="end" name="trip-end" min="${new Date().toDateString()}">
-    <input type="number" name="travelers" value="1" min="1">
+    <input type="date" id="start" class="trip-start" min="${new Date().toDateString()}">
+    <input type="date" id="end" class="trip-end" min="${new Date().toDateString()}">
+    <input type="number" class="num-travelers" value="1" min="1">
     <h3></h3>
-    <button type="button" name="button">book it</button>`);
+    <button class="book-trip-button">book it</button>`);
 
     this.displayDestinationOptions(destinations, document.querySelector('.destination-list'));
   },

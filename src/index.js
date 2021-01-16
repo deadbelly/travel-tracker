@@ -33,11 +33,12 @@ function fetchAndLoadDataModel() {
     .then(responses => {
       if (checkLoginCredentials(responses[0], username, password, id)) {
         generateClasses(responses[0], responses[1], responses[2]);
+        console.log(responses[1])
+        displayAllTrips();
+        domUpdates.displaySidebar(user, sidebar);
         domUpdates.toggleHidden(loginPage);
         domUpdates.toggleHidden(main);
         domUpdates.toggleHidden(sidebar);
-        displayAllTrips();
-        domUpdates.displaySidebar(user, sidebar);
         document.querySelector('.plan-trip-button').addEventListener('click', toggleFormView)
       } else if (responses[0].message) {
         alert('LOGIN FAILED\ninvalid username');
@@ -71,4 +72,26 @@ function toggleFormView() {
   document.querySelector('.new-trip-form').classList.toggle('hidden');
 
   domUpdates.displayNewTripForm(destinations);
+  document.querySelector('.book-trip-button').addEventListener('click', bookTrip);
+}
+
+function bookTrip() {
+  event.preventDefault()
+  const destinationName = document.querySelector('.destination-list').value;
+  const startDate = document.querySelector('.trip-start').value;
+  const endDate = document.querySelector('.trip-end').value;
+  const travelers = document.querySelector('.num-travelers').value;
+
+  fetchRequests.getTrips().then(response => {
+    fetchRequests.postTrip({
+      id: response.trips.length + 1,
+      userID: user.id,
+      destinationID: destinations.find(destination => destination.destination === destinationName).id,
+      travelers: travelers,
+      date: new Date(startDate).toISOString().substring(0, 10).replaceAll('-', '/'),
+      duration: (new Date(endDate).getTime() - new Date(startDate).getTime())/(1000*60*60*24),
+      status: 'pending',
+      suggestedActivities: []
+    });
+  });
 }
