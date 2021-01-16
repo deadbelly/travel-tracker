@@ -17,7 +17,7 @@ class Trip {
   calculateCost(destinations) {
     const destination = this.findDestination(destinations);
     const flightCost = destination.estimatedFlightCostPerPerson * this.travelers;
-    const lodgingCost = (destination.estimatedLodgingCostPerDay * this.travelers) * this.duration;
+    const lodgingCost = destination.estimatedLodgingCostPerDay * this.travelers * this.duration;
     return {
       beforeAgent: flightCost + lodgingCost,
       afterAgent: Math.ceil(1.1 * (flightCost + lodgingCost))
