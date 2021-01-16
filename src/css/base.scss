@@ -1,13 +1,25 @@
 @import 'variables';
 
 html {
+  background-color: 	#f9f1f1;
   font-family: "Lato", sans-serif;
 }
 
+h1 {
+  font-size: 5vmin;
+}
+
 body {
+  background-color:#FBFBF8;
+  opacity: 95%;
+  align-self: center;
   display: flex;
   height: 98vh;
-  width: 98%;
+  width: 99%;
+}
+
+#blockColorblindContent {
+  display: none;
 }
 
 .hidden {
@@ -15,21 +27,18 @@ body {
 }
 
 .navbar {
-  border: solid;
-  border-color: black;
-  width: 50%;
+  width: 30%;
 }
 
 main {
-  border: solid;
-  border-color: black;
   @include displayFlex(column, flex-start, nowrap);
-  width: 100%;
+  width: 70%;
   overflow: hidden;
+  text-align: center;
 }
 
 .trip-list {
-  @include displayFlex(column, flex-start, nowrap);
+  display: inline-block;
   overflow-y: scroll;
 }
 
@@ -37,15 +46,22 @@ main {
   display: inline-block;
   position: relative;
   cursor: pointer;
-  @include setDimensions(20%, 100%);
+  @include setDimensions(22%, 100%);
   transition: .8s ease;
   overflow: hidden;
+  & .details{
+    display: none;
+    font-size: 2vmin;
+    text-align: left;
+    line-height: 1vmin;
+  }
   & button {
     background: none;
     border: none;
     top: 1%;
     bottom: 1%;
     & .info-block {
+      font-family: "Lato", sans-serif;
       position: absolute;
       bottom: 5%;
       right: 3%;
@@ -61,9 +77,15 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    @include setDimensions(auto, 100%);
+    @include setDimensions(100%, 100%);
   }
   &:hover {
     @include setDimensions(40%, 100%);
+    & .year {
+      display: none;
+    }
+    & .details {
+      display: block;
+    }
   }
 }
