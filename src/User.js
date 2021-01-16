@@ -9,7 +9,6 @@ class User {
   }
 
   generateTrips(tripData) {
-    console.log(this.sortByDate(this.filterTripData(tripData)))
     return this.sortByDate(this.filterTripData(tripData)).map(data => new Trip(data));
   }
 
