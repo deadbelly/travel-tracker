@@ -18,7 +18,7 @@ const domUpdates = {
             <p>start date:  ${trip.date}</p>
             <p>duration:  ${trip.duration} days</p>
             <p>travelers:   ${trip.travelers}</p>
-            <p>cost:  $${trip.calculateCost(destinations)}</p>
+            <p>cost:  $${trip.calculateCost(destinations).afterAgent}</p>
           </div>
         <div>
       </button>

@@ -20,7 +20,7 @@ class Trip {
     const lodgingCost = (destination.estimatedLodgingCostPerDay * this.travelers) * this.duration;
     return {
       beforeAgent: flightCost + lodgingCost,
-      afterAgent: 1.1 * (flightCost + lodgingCost)
+      afterAgent: Math.ceil(1.1 * (flightCost + lodgingCost))
     }
   }
 
