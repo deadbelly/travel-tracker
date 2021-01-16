@@ -1,5 +1,3 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
 import User from './User';
 import Trip from './Trip';
 import Destination from './Destination';
@@ -7,11 +5,8 @@ import Destination from './Destination';
 import fetchRequests from './fetchRequests';
 import domUpdates from './domUpdates';
 
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/profpic.png'
+import './images/profpic.png';
 
 let user;
 let destinations;
@@ -21,7 +16,7 @@ const usernameInput = document.querySelector('.username-input');
 const passwordInput = document.querySelector('.password-input');
 const loginButton = document.querySelector('.login-button');
 
-const navBar = document.querySelector('.navbar');
+const sidebar = document.querySelector('.sidebar');
 
 const main = document.querySelector('main');
 const tripList = document.querySelector('.trip-list');
@@ -40,9 +35,10 @@ function fetchAndLoadDataModel() {
         generateClasses(responses[0], responses[1], responses[2]);
         domUpdates.toggleHidden(loginPage);
         domUpdates.toggleHidden(main);
-        domUpdates.toggleHidden(navBar);
+        domUpdates.toggleHidden(sidebar);
         displayAllTrips();
-        domUpdates.displayNavBar(user, navBar);
+        domUpdates.displaySidebar(user, sidebar);
+        document.querySelector('.plan-trip-button').addEventListener('click', toggleFormView)
       } else if (responses[0].message) {
         alert('LOGIN FAILED\ninvalid username');
       } else {
@@ -67,4 +63,12 @@ function displayAllTrips() {
   user.trips.forEach(trip => {
     domUpdates.displayTrip(trip, destinations, tripList)
   });
+}
+
+function toggleFormView() {
+  document.querySelector('.welcome-message').classList.toggle('hidden');
+  document.querySelector('.plan-trip-button').classList.toggle('hidden');
+  document.querySelector('.new-trip-form').classList.toggle('hidden');
+
+  domUpdates.displayNewTripForm(destinations);
 }
