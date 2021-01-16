@@ -26,7 +26,7 @@ body {
   display: none !important;
 }
 
-.navbar {
+.sidebar {
   align-items: center;
   @include displayFlex(column, flex-start, nowrap);
   width: 30%;

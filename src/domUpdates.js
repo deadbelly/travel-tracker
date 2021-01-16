@@ -24,15 +24,36 @@ const domUpdates = {
     </article>`);
   },
 
-  displayNavBar(user, navBar){
-    navBar.insertAdjacentHTML('afterbegin',
+  displaySidebar(user, sidebar){
+    sidebar.insertAdjacentHTML('afterbegin',
     `<img src="./images/profpic.png" alt="user's profile picture">
     <h2>${user.name}</h2>
-    <h3>Welcome back, traveler!</h3>
-    <h3>Approved Trips: ${user.returnTripsByStatus('approved').length}
-      <br>Pending Trips: ${user.returnTripsByStatus('pending').length}
-      <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
-    <button type="button" name="button">plan a trip!</button>`)
+    <div class="welcome-message">
+      <h3>Welcome back, traveler!</h3>
+      <h3>Approved Trips: ${user.returnTripsByStatus('approved').length}
+        <br>Pending Trips: ${user.returnTripsByStatus('pending').length}
+        <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
+    </div>
+    <button class="plan-trip-button">plan a trip!</button>`);
+  },
+
+  displayNewTripForm(destinations) {
+    document.querySelector('.new-trip-form').insertAdjacentHTML('afterbegin',
+    `<select class="destination-list" name="">
+    </select>
+    <input type="date" id="start" name="trip-start" min="${new Date().toDateString()}">
+    <input type="date" id="end" name="trip-end" min="${new Date().toDateString()}">
+    <input type="number" name="travelers" value="1" min="1">
+    <h3></h3>
+    <button type="button" name="button">book it</button>`);
+
+    this.displayDestinationOptions(destinations, document.querySelector('.destination-list'));
+  },
+
+  displayDestinationOptions(destinations, destinationList) {
+    destinations.sort((a, b) => a.destination.localeCompare(b.destination)).forEach(destination => {
+      destinationList.insertAdjacentHTML('beforeend', `<option value="${destination.destination}">${destination.destination}</option>`);
+    });
   }
 };
 
