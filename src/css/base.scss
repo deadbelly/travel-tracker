@@ -1,7 +1,7 @@
 @import 'variables';
 
 html {
-  background-color: 	#f9f1f1;
+  background-color: 	#F9F5F1;
   font-family: "Lato", sans-serif;
 }
 
@@ -27,7 +27,17 @@ body {
 }
 
 .navbar {
+  align-items: center;
+  @include displayFlex(column, flex-start, nowrap);
   width: 30%;
+  & img{
+    position: relative;
+    @include setDimensions(auto, 75%);
+  }
+}
+
+.pending {
+  color: #F9D1CB;
 }
 
 main {
@@ -70,6 +80,7 @@ main {
       padding-left: 5%;
       padding-right: 5%;
       opacity: 85%;
+      @include setDimensions(auto, 25%);
     }
   }
   & img {
@@ -81,9 +92,6 @@ main {
   }
   &:hover {
     @include setDimensions(40%, 100%);
-    & .year {
-      display: none;
-    }
     & .details {
       display: block;
     }

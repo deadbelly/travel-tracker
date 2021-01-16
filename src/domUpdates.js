@@ -12,17 +12,28 @@ const domUpdates = {
         <img src="${destination.image}"  alt="${destination.alt}">
         <div class="info-block">
           <h2>${destination.destination}</h2>
-          <p class="year">${parseInt(trip.date)}</p>
-          <h3>${trip.isPending()}</h3>
+          <h3 class="pending">${trip.isPending()}</h3>
           <div class="details">
-            <p>start date:  ${trip.date}</p>
+            <p>start date:  ${trip.date.toDateString()}</p>
             <p>duration:  ${trip.duration} days</p>
             <p>travelers:   ${trip.travelers}</p>
-            <p>cost:  $${trip.calculateCost(destinations)}</p>
+            <p>cost:  $${trip.calculateCost(destinations).afterAgent}</p>
           </div>
         <div>
       </button>
     </article>`);
+  },
+
+  displayNavBar(user, navBar){
+    console.log(user.returnTripsThisYear())
+    navBar.insertAdjacentHTML('afterbegin',
+    `<img src="./images/profpic.png" alt="user's profile picture">
+    <h2>${user.name}</h2>
+    <h3>Welcome back, traveler!</h3>
+    <h3>Approved Trips: ${user.returnTrips('approved').length}
+      <br>Pending Trips: ${user.returnTrips('pending').length}
+      <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
+    <button type="button" name="button">plan a trip!</button>`)
   }
 };
 

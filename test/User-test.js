@@ -12,7 +12,7 @@ describe('User', () => {
 
   beforeEach(() => {
     destinations = destinationData.map(destination => new Destination(destination));
-    user = new User(travelerData, tripData);
+    user = new User(travelerData, tripData, destinations);
   });
 
   it('should be a function', () => {
@@ -38,35 +38,28 @@ describe('User', () => {
   it('should have an array of trips', () => {
     user.trips.forEach(trip => expect(trip).to.be.an.instanceof(Trip));
     user.trips.forEach(trip => expect(trip.userID).to.eq(1));
-    expect(user.trips[0].id).to.eq(2);
-    expect(user.trips[1].id).to.eq(3);
+    expect(user.trips[0].id).to.eq(3);
+    expect(user.trips[1].id).to.eq(2);
+  });
+
+  it('should turn it\'s trips dates into instances of Date', () => {
+    user.trips.forEach(trip => expect(trip.date).to.be.an.instanceof(Date));
   });
 
   it('should be able to return an array of approved trips', () => {
-    expect(user.returnTrips('approved')).to.eql([
-    {
-      "id": 3,
-      "userID": 1,
-      "destinationID": 2,
-      "travelers": 4,
-      "date": "2020/05/22",
-      "duration": 17,
-      "status": "approved",
-      "suggestedActivities": []
-    }]);
+    expect(user.returnTripsByStatus('approved')[0].id).to.eql(3);
+    expect(user.returnTripsByStatus('approved')[0].status).to.eql('approved');
+    expect(user.returnTripsByStatus('approved').length).to.eql(1);
   });
 
   it('should be able to return an array of pending trips', () => {
-    expect(user.returnTrips('pending')).to.eql([
-    {
-      "id": 2,
-      "userID": 1,
-      "destinationID": 1,
-      "travelers": 5,
-      "date": "2020/10/04",
-      "duration": 18,
-      "status": "pending",
-      "suggestedActivities": []
-    }]);
+    expect(user.returnTripsByStatus('pending')[0].id).to.eq(2);
+    expect(user.returnTripsByStatus('pending')[0].status).to.eq('pending');
+      expect(user.returnTripsByStatus('pending').length).to.eql(1);
+  });
+
+  it('should be able to return an array of trips this year', () => {
+    expect(user.returnTripsThisYear()[0].id).to.eql(3);
+    expect(user.returnTripsThisYear().length).to.eql(1);
   });
 });

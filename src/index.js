@@ -11,7 +11,7 @@ import domUpdates from './domUpdates';
 import './css/base.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+import './images/profpic.png'
 
 let user;
 let destinations;
@@ -42,9 +42,7 @@ function fetchAndLoadDataModel() {
         domUpdates.toggleHidden(main);
         domUpdates.toggleHidden(navBar);
         displayAllTrips();
-        console.log(user)
-        console.log(user.trips)
-        console.log(destinations)
+        domUpdates.displayNavBar(user, navBar);
       } else if (responses[0].message) {
         alert('LOGIN FAILED\ninvalid username');
       } else {
@@ -54,8 +52,8 @@ function fetchAndLoadDataModel() {
 }
 
 function generateClasses(userData, tripData, destinationData) {
-  user = new User(userData, tripData.trips);
   destinations = destinationData.destinations.map(data => new Destination(data));
+  user = new User(userData, tripData.trips, destinations);
 }
 
 
@@ -67,7 +65,6 @@ function checkLoginCredentials(response, username, password, id) {
 
 function displayAllTrips() {
   user.trips.forEach(trip => {
-    console.log(tripList)
     domUpdates.displayTrip(trip, destinations, tripList)
   });
 }

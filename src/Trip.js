@@ -1,5 +1,5 @@
 class Trip {
-  constructor(dataObject) {
+  constructor(dataObject, destinations) {
     this.id = dataObject.id
     this.userID = dataObject.userID
     this.destinationID = dataObject.destinationID
@@ -8,6 +8,7 @@ class Trip {
     this.duration = dataObject.duration
     this.status = dataObject.status
     this.suggestedActivities = dataObject.suggestedActivities
+    this.cost = this.calculateCost(destinations)
   }
 
   findDestination(destinations) {
@@ -17,10 +18,10 @@ class Trip {
   calculateCost(destinations) {
     const destination = this.findDestination(destinations);
     const flightCost = destination.estimatedFlightCostPerPerson * this.travelers;
-    const lodgingCost = (destination.estimatedLodgingCostPerDay * this.travelers) * this.duration;
+    const lodgingCost = destination.estimatedLodgingCostPerDay * this.travelers * this.duration;
     return {
       beforeAgent: flightCost + lodgingCost,
-      afterAgent: 1.1 * (flightCost + lodgingCost)
+      afterAgent: Math.ceil(1.1 * (flightCost + lodgingCost))
     }
   }
 
