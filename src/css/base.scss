@@ -38,7 +38,7 @@ body {
 
 .new-trip-form {
   align-items: center;
-  @include displayFlex(column, space-between, nowrap);
+  @include displayFlex(column, space-around, nowrap);
   @include setDimensions(100%, 100%);
   & input {
     @include setDimensions(auto, 80%);
