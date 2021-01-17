@@ -26,7 +26,8 @@ const navBar = document.querySelector('.navbar');
 const main = document.querySelector('main');
 const tripList = document.querySelector('.trip-list');
 
-loginButton.addEventListener('click', fetchAndLoadDataModel)
+// loginButton.addEventListener('click', fetchAndLoadDataModel)
+window.addEventListener('load', fetchAndLoadDataModel)
 
 function fetchAndLoadDataModel() {
   event.preventDefault;
@@ -34,20 +35,20 @@ function fetchAndLoadDataModel() {
   const id = username.match(/\d+/)[0]
   const password = passwordInput.value;
 
-  Promise.all(fetchRequests.getAllData(id))
+  Promise.all(fetchRequests.getAllData(45))
     .then(responses => {
-      if (checkLoginCredentials(responses[0], username, password, id)) {
+      // if (checkLoginCredentials(responses[0], username, password, id)) {
         generateClasses(responses[0], responses[1], responses[2]);
         domUpdates.toggleHidden(loginPage);
         domUpdates.toggleHidden(main);
         domUpdates.toggleHidden(navBar);
         displayAllTrips();
         domUpdates.displayNavBar(user, navBar);
-      } else if (responses[0].message) {
-        alert('LOGIN FAILED\ninvalid username');
-      } else {
-        alert('LOGIN FAILED\ninvalid password');
-      }
+      // } else if (responses[0].message) {
+      //   alert('LOGIN FAILED\ninvalid username');
+      // } else {
+      //   alert('LOGIN FAILED\ninvalid password');
+      // }
     });
 }
 
