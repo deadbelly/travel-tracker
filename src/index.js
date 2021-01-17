@@ -42,6 +42,7 @@ function fetchAndLoadDataModel() {
     .then(responses => {
       if (checkLoginCredentials(responses[0], username, password, id)) {
         generateClasses(responses[0], responses[1], responses[2]);
+        console.log(responses[1])
         displayAllTrips();
         domUpdates.displaySidebar(user, sidebar);
         domUpdates.toggleHidden(loginPage);
@@ -112,7 +113,6 @@ function getObjectFromInputs(trips) {
 }
 
 
-
 function setEndMin() {
   let nextDay = new Date();
   nextDay.setDate(new Date(startDateInput.value).getDate() + 1);
@@ -125,7 +125,6 @@ function setStartMin() {
 
 function updateCostMessage() {
   if (startDateInput.value && endDateInput.value) {
-    console.log('hi')
     const trip = new Trip(getObjectFromInputs({trips: []}), destinations)
     domUpdates.displayCostMessage(trip)
   } else {

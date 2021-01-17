@@ -12,7 +12,7 @@ const domUpdates = {
         <img src="${destination.image}"  alt="${destination.alt}">
         <div class="info-block">
           <h2>${destination.destination}</h2>
-          <h3 class="pending">${trip.isPending()}</h3>
+          <h3 class="${trip.returnStatusInfo()}">${trip.returnStatusInfo()}</h3>
           <div class="details">
             <p>start date:  ${trip.date.toDateString()}</p>
             <p>duration:  ${trip.duration} days</p>

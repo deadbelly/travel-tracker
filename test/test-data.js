@@ -49,7 +49,7 @@ const tripData = [
     "userID": 1,
     "destinationID": 2,
     "travelers": 4,
-    "date": "2020/05/22",
+    "date": "2021/05/22",
     "duration": 17,
     "status": "approved",
     "suggestedActivities": []
