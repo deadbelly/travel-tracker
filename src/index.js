@@ -42,6 +42,7 @@ function fetchAndLoadDataModel() {
     .then(responses => {
       if (checkLoginCredentials(responses[0], username, password, id)) {
         generateClasses(responses[0], responses[1], responses[2]);
+        console.log(responses[1])
         displayAllTrips();
         domUpdates.displaySidebar(user, sidebar);
         domUpdates.toggleHidden(loginPage);
