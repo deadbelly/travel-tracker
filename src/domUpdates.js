@@ -1,7 +1,4 @@
 const domUpdates = {
-  toggleHidden(ele) {
-    ele.classList.toggle('hidden');
-  },
 
   displayTrip(trip, destinations, tripList) {
     const destination = trip.findDestination(destinations);
@@ -31,12 +28,16 @@ const domUpdates = {
   displaySidebar(user, sidebar){
     sidebar.insertAdjacentHTML('afterbegin',
     `<img class="prof-pic" src="./images/profpic.png" alt="user's profile picture">
-    <h2>${user.name}</h2>
+    <h1 class="user-name">${user.name}</h1>
+    <h2 class="traveler-type">${user.travelerType}</h2>
     <div class="sidebar-content welcome-message">
-      <h3>Welcome back, traveler!</h3>
-      <h3>Approved Trips: ${user.returnTripsByStatus('approved').length}
-        <br>Pending Trips: ${user.returnTripsByStatus('pending').length}
-        <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
+      <h3>Welcome back, traveler!
+      <br> ---------
+      <br>Approved Trips: ${user.returnTripsByStatus('approved').length}
+      <br> ---------
+      <br>Pending Trips: ${user.returnTripsByStatus('pending').length}
+      <br> ---------
+      <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
     </div>`)
   },
 
@@ -64,11 +65,11 @@ const domUpdates = {
   },
 
   displayPendingMessage() {
-    document.querySelector('.cost-message').innerHTML = 'select a start and end date and we\'ll calculate the price'
+    document.querySelector('.cost-message').innerHTML = 'select a start and end date and we\'ll calculate the cost'
   },
 
   displayCostMessage(trip) {
-    document.querySelector('.cost-message').innerHTML = `${trip.cost.beforeAgent} + 10% agent fee = ${trip.cost.afterAgent}`
+    document.querySelector('.cost-message').innerHTML = `$${trip.cost.beforeAgent} + 10% agent fee = $${trip.cost.afterAgent}`
   }
 };
 

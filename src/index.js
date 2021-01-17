@@ -23,6 +23,7 @@ const passwordInput = document.querySelector('.password-input');
 const loginButton = document.querySelector('.login-button');
 
 const sidebar = document.querySelector('.sidebar');
+const planTripButton = document.querySelector('.plan-trip-button');
 
 const main = document.querySelector('main');
 const tripList = document.querySelector('.trip-list');
@@ -32,10 +33,13 @@ const endDateInput = document.querySelector('.trip-end');
 const formInputs = document.querySelectorAll('.new-trip-form__input');
 const destinationList = document.querySelector('.destination-list')
 const travelersInput = document.querySelector('.num-travelers');
+const bookTripButton = document.querySelector('.book-trip-button');
 
 loginButton.addEventListener('click', fetchAndLoadDataModel)
 startDateInput.addEventListener('input', setEndMin)
 formInputs.forEach(input => addEventListener('input', updateCostMessage))
+planTripButton.addEventListener('click', toggleFormView)
+bookTripButton.addEventListener('click', bookTrip);
 
 
 function fetchAndLoadDataModel() {
@@ -47,18 +51,7 @@ function fetchAndLoadDataModel() {
   Promise.all(fetchRequests.getAllData(id))
     .then(responses => {
       if (checkLoginCredentials(responses[0], username, password, id)) {
-        generateClasses(responses[0], responses[1], responses[2]);
-        console.log(responses[1])
-        displayAllTrips();
-        domUpdates.displaySidebar(user, sidebar);
-        domUpdates.toggleHidden(loginPage);
-        domUpdates.toggleHidden(main);
-        domUpdates.toggleHidden(sidebar);
-        setStartMin()
-        document.querySelector('.plan-trip-button').classList.toggle('hidden')
-        document.querySelector('.plan-trip-button').addEventListener('click', toggleFormView)
-        document.querySelector('.book-trip-button').addEventListener('click', bookTrip);
-        domUpdates.displayDestinationOptions(destinations, document.querySelector('.destination-list'))
+        initializeDOM(responses[0], responses[1], responses[2])
       } else if (responses[0].message) {
         alert('LOGIN FAILED\ninvalid username');
       } else {
@@ -87,9 +80,9 @@ function displayAllTrips() {
 
 function toggleFormView() {
   document.querySelector('.welcome-message').classList.toggle('hidden');
-  document.querySelector('.plan-trip-button').classList.toggle('hidden');
+  planTripButton.classList.toggle('hidden');
   document.querySelector('.new-trip-form').classList.toggle('hidden');
-  document.querySelector('.book-trip-button').classList.toggle('hidden');
+  bookTripButton.classList.toggle('hidden');
 }
 
 function bookTrip() {
@@ -98,13 +91,29 @@ function bookTrip() {
   fetchRequests.getTrips().then(response => {
     fetchRequests.postTrip(getObjectFromInputs(response)).then(response => {
       Promise.all(fetchRequests.getAllData(user.id)).then(responses => {
-        generateClasses(responses[0], responses[1], responses[2]);
-        domUpdates.clearTrips(tripList)
-        displayAllTrips();
+        generateClasses(responses[0], responses[1], responses[2])
+        displayTrips()
         toggleFormView();
       });
     });
   });
+}
+
+function displayTrips() {
+  domUpdates.clearTrips(tripList)
+  displayAllTrips();
+}
+
+function initializeDOM(userData, recipeData, destinationData) {
+  generateClasses(userData, recipeData, destinationData)
+  displayTrips()
+  domUpdates.displaySidebar(user, sidebar);
+  loginPage.classList.toggle('hidden');
+  main.classList.toggle('hidden');
+  sidebar.classList.toggle('hidden');
+  setStartMin()
+  planTripButton.classList.toggle('hidden')
+  domUpdates.displayDestinationOptions(destinations, document.querySelector('.destination-list'))
 }
 
 function getObjectFromInputs(trips) {
