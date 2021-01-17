@@ -1,5 +1,3 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
 import User from './User';
 import Trip from './Trip';
 import Destination from './Destination';
@@ -7,11 +5,8 @@ import Destination from './Destination';
 import fetchRequests from './fetchRequests';
 import domUpdates from './domUpdates';
 
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/profpic.png'
+import './images/profpic.png';
 
 let user;
 let destinations;
@@ -21,13 +16,21 @@ const usernameInput = document.querySelector('.username-input');
 const passwordInput = document.querySelector('.password-input');
 const loginButton = document.querySelector('.login-button');
 
-const navBar = document.querySelector('.navbar');
+const sidebar = document.querySelector('.sidebar');
 
 const main = document.querySelector('main');
 const tripList = document.querySelector('.trip-list');
 
-// loginButton.addEventListener('click', fetchAndLoadDataModel)
-window.addEventListener('load', fetchAndLoadDataModel)
+const startDateInput = document.querySelector('.trip-start');
+const endDateInput = document.querySelector('.trip-end');
+const formInputs = document.querySelectorAll('.new-trip-form__input');
+const destinationList = document.querySelector('.destination-list')
+const travelersInput = document.querySelector('.num-travelers');
+
+loginButton.addEventListener('click', fetchAndLoadDataModel)
+startDateInput.addEventListener('input', setEndMin)
+formInputs.forEach(input => addEventListener('input', updateCostMessage))
+
 
 function fetchAndLoadDataModel() {
   event.preventDefault;
@@ -37,18 +40,22 @@ function fetchAndLoadDataModel() {
 
   Promise.all(fetchRequests.getAllData(45))
     .then(responses => {
-      // if (checkLoginCredentials(responses[0], username, password, id)) {
+      if (checkLoginCredentials(responses[0], username, password, id)) {
         generateClasses(responses[0], responses[1], responses[2]);
+        displayAllTrips();
+        domUpdates.displaySidebar(user, sidebar);
         domUpdates.toggleHidden(loginPage);
         domUpdates.toggleHidden(main);
-        domUpdates.toggleHidden(navBar);
-        displayAllTrips();
-        domUpdates.displayNavBar(user, navBar);
-      // } else if (responses[0].message) {
-      //   alert('LOGIN FAILED\ninvalid username');
-      // } else {
-      //   alert('LOGIN FAILED\ninvalid password');
-      // }
+        domUpdates.toggleHidden(sidebar);
+        setStartMin()
+        document.querySelector('.plan-trip-button').addEventListener('click', toggleFormView)
+        document.querySelector('.book-trip-button').addEventListener('click', bookTrip);
+        domUpdates.displayDestinationOptions(destinations, document.querySelector('.destination-list'))
+      } else if (responses[0].message) {
+        alert('LOGIN FAILED\ninvalid username');
+      } else {
+        alert('LOGIN FAILED\ninvalid password');
+      }
     });
 }
 
@@ -68,4 +75,60 @@ function displayAllTrips() {
   user.trips.forEach(trip => {
     domUpdates.displayTrip(trip, destinations, tripList)
   });
+}
+
+function toggleFormView() {
+  document.querySelector('.welcome-message').classList.toggle('hidden');
+  document.querySelector('.plan-trip-button').classList.toggle('hidden');
+  document.querySelector('.new-trip-form').classList.toggle('hidden');
+}
+
+function bookTrip() {
+  event.preventDefault()
+
+  fetchRequests.getTrips().then(response => {
+    fetchRequests.postTrip(getObjectFromInputs(response)).then(response => {
+      Promise.all(fetchRequests.getAllData(user.id)).then(responses => {
+        generateClasses(responses[0], responses[1], responses[2]);
+        domUpdates.clearTrips(tripList)
+        displayAllTrips();
+        toggleFormView();
+      });
+    });
+  });
+}
+
+function getObjectFromInputs(trips) {
+  return {
+    id: trips.trips.length + 1,
+    userID: user.id,
+    destinationID: parseInt(destinationList.value),
+    travelers: travelersInput.value,
+    date: new Date(startDateInput.value).toISOString().substring(0, 10).replaceAll('-', '/'),
+    duration: (new Date(endDateInput.value).getTime() - new Date(startDateInput.value).getTime())/(1000*60*60*24),
+    status: 'pending',
+    suggestedActivities: []
+  }
+}
+
+
+
+function setEndMin() {
+  let nextDay = new Date();
+  nextDay.setDate(new Date(startDateInput.value).getDate() + 1);
+  endDateInput.setAttribute('min', nextDay.toISOString().substring(0, 10));
+}
+
+function setStartMin() {
+  startDateInput.setAttribute('min', new Date().toISOString().substring(0, 10));
+}
+
+function updateCostMessage() {
+  if (startDateInput.value && endDateInput.value) {
+    console.log('hi')
+    const trip = new Trip(getObjectFromInputs({trips: []}), destinations)
+    domUpdates.displayCostMessage(trip)
+  } else {
+    domUpdates.displayPendingMessage();
+  }
 }
