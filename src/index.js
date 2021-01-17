@@ -27,8 +27,7 @@ const formInputs = document.querySelectorAll('.new-trip-form__input');
 const destinationList = document.querySelector('.destination-list')
 const travelersInput = document.querySelector('.num-travelers');
 
-window.addEventListener('load', fetchAndLoadDataModel)
-// loginButton.addEventListener('click', fetchAndLoadDataModel)
+loginButton.addEventListener('click', fetchAndLoadDataModel)
 startDateInput.addEventListener('input', setEndMin)
 formInputs.forEach(input => addEventListener('input', updateCostMessage))
 
@@ -39,9 +38,9 @@ function fetchAndLoadDataModel() {
   const id = username.match(/\d+/)[0]
   const password = passwordInput.value;
 
-  Promise.all(fetchRequests.getAllData(45))
+  Promise.all(fetchRequests.getAllData(id))
     .then(responses => {
-      // if (checkLoginCredentials(responses[0], username, password, id)) {
+      if (checkLoginCredentials(responses[0], username, password, id)) {
         generateClasses(responses[0], responses[1], responses[2]);
         displayAllTrips();
         domUpdates.displaySidebar(user, sidebar);
@@ -52,11 +51,11 @@ function fetchAndLoadDataModel() {
         document.querySelector('.plan-trip-button').addEventListener('click', toggleFormView)
         document.querySelector('.book-trip-button').addEventListener('click', bookTrip);
         domUpdates.displayDestinationOptions(destinations, document.querySelector('.destination-list'))
-      // } else if (responses[0].message) {
-      //   alert('LOGIN FAILED\ninvalid username');
-      // } else {
-      //   alert('LOGIN FAILED\ninvalid password');
-      // }
+      } else if (responses[0].message) {
+        alert('LOGIN FAILED\ninvalid username');
+      } else {
+        alert('LOGIN FAILED\ninvalid password');
+      }
     });
 }
 
