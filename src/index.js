@@ -33,7 +33,6 @@ function fetchAndLoadDataModel() {
     .then(responses => {
       if (checkLoginCredentials(responses[0], username, password, id)) {
         generateClasses(responses[0], responses[1], responses[2]);
-        console.log(responses[1])
         displayAllTrips();
         domUpdates.displaySidebar(user, sidebar);
         domUpdates.toggleHidden(loginPage);
@@ -70,6 +69,9 @@ function toggleFormView() {
   document.querySelector('.welcome-message').classList.toggle('hidden');
   document.querySelector('.plan-trip-button').classList.toggle('hidden');
   document.querySelector('.new-trip-form').classList.toggle('hidden');
+  if(document.querySelector('.book-trip-button')) {
+    document.querySelector('.book-trip-button').classList.toggle('hidden');
+  }
 
   domUpdates.displayNewTripForm(destinations);
   document.querySelector('.book-trip-button').addEventListener('click', bookTrip);
@@ -81,6 +83,7 @@ function bookTrip() {
   const startDate = document.querySelector('.trip-start').value;
   const endDate = document.querySelector('.trip-end').value;
   const travelers = document.querySelector('.num-travelers').value;
+  let formResponse;
 
   fetchRequests.getTrips().then(response => {
     fetchRequests.postTrip({
@@ -92,6 +95,13 @@ function bookTrip() {
       duration: (new Date(endDate).getTime() - new Date(startDate).getTime())/(1000*60*60*24),
       status: 'pending',
       suggestedActivities: []
+    }).then(response => {
+      Promise.all(fetchRequests.getAllData(user.id)).then(responses => {
+        generateClasses(responses[0], responses[1], responses[2]);
+        domUpdates.clearTrips(tripList)
+        displayAllTrips();
+        toggleFormView();
+      });
     });
   });
 }

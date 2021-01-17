@@ -19,12 +19,12 @@ const fetchRequests = {
   },
 
   postTrip(obj) {
-    fetch('http://localhost:3001/api/v1/trips', {
+    return fetch('http://localhost:3001/api/v1/trips', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(obj)
     })
-    .then(response => console.log(response.json()));
+    .then(response => response.json());
   }
 }
 

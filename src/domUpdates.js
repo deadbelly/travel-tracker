@@ -24,6 +24,10 @@ const domUpdates = {
     </article>`);
   },
 
+  clearTrips(tripList) {
+    tripList.innerHTML = ''
+  },
+
   displaySidebar(user, sidebar){
     sidebar.insertAdjacentHTML('afterbegin',
     `<img src="./images/profpic.png" alt="user's profile picture">
