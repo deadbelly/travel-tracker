@@ -7,6 +7,12 @@ import domUpdates from './domUpdates';
 
 import './css/base.scss';
 import './images/profpic.png';
+import './images/icons/bags-icon.svg'
+import './images/icons/location-icon.svg'
+import './images/icons/map-icon.svg'
+import './images/icons/plans-icon.svg'
+import './images/icons/tickets-icon.svg'
+import './images/icons/travel-icon.svg'
 
 let user;
 let destinations;

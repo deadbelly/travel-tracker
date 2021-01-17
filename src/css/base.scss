@@ -7,9 +7,10 @@ html {
 
 h1 {
   font-size: 5vmin;
+  margin: none;
   & img{
     @include setDimensions(20%, 20%);
-    line-height: 1vmin;
+
   }
 }
 
