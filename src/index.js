@@ -55,6 +55,7 @@ function fetchAndLoadDataModel() {
         domUpdates.toggleHidden(main);
         domUpdates.toggleHidden(sidebar);
         setStartMin()
+        document.querySelector('.plan-trip-button').classList.toggle('hidden')
         document.querySelector('.plan-trip-button').addEventListener('click', toggleFormView)
         document.querySelector('.book-trip-button').addEventListener('click', bookTrip);
         domUpdates.displayDestinationOptions(destinations, document.querySelector('.destination-list'))
@@ -88,6 +89,7 @@ function toggleFormView() {
   document.querySelector('.welcome-message').classList.toggle('hidden');
   document.querySelector('.plan-trip-button').classList.toggle('hidden');
   document.querySelector('.new-trip-form').classList.toggle('hidden');
+  document.querySelector('.book-trip-button').classList.toggle('hidden');
 }
 
 function bookTrip() {

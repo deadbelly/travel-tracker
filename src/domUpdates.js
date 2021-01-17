@@ -30,15 +30,14 @@ const domUpdates = {
 
   displaySidebar(user, sidebar){
     sidebar.insertAdjacentHTML('afterbegin',
-    `<img src="./images/profpic.png" alt="user's profile picture">
+    `<img class="prof-pic" src="./images/profpic.png" alt="user's profile picture">
     <h2>${user.name}</h2>
-    <div class="welcome-message">
+    <div class="sidebar-content welcome-message">
       <h3>Welcome back, traveler!</h3>
       <h3>Approved Trips: ${user.returnTripsByStatus('approved').length}
         <br>Pending Trips: ${user.returnTripsByStatus('pending').length}
         <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
-    </div>
-    <button class="plan-trip-button">plan a trip!</button>`);
+    </div>`)
   },
 
   displayNewTripForm(destinations) {

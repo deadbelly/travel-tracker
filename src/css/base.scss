@@ -9,7 +9,7 @@ h1 {
   font-size: 5vmin;
   margin: none;
   & img{
-    @include setDimensions(auto, 10%);
+    @include setDimensions(auto, 7%);
   }
 }
 
@@ -34,16 +34,44 @@ body {
   align-items: center;
   @include displayFlex(column, flex-start, nowrap);
   width: 30%;
-  & img{
-    position: relative;
-    @include setDimensions(auto, 75%);
+}
+
+.prof-pic{
+  position: relative;
+  @include setDimensions(auto, 75%);
+}
+
+.sidebar-content {
+  @include displayFlex(column, flex-start, nowrap);
+  @include setDimensions(33%, 100%);
+}
+
+.sidebar-btn {
+  background: none;
+  border: none;
+  font-size: 2.8vmin;
+  margin-bottom: 3%;
+  & img {
+    @include setDimensions(auto, 20%);
   }
+  &:hover {
+    cursor: pointer;
+    font-size: 3.2vmin;
+    transition: .4s ease;
+    & img {
+      @include setDimensions(auto, 25%);
+      transition: .4s ease;
+    }
+  }
+}
+
+.sidebar-btn-area {
+  @include setDimensions(20%, 100%);
 }
 
 .new-trip-form {
   align-items: center;
   @include displayFlex(column, space-around, nowrap);
-  @include setDimensions(100%, 100%);
   & input {
     @include setDimensions(auto, 80%);
     font-family: "Lato", sans-serif;
