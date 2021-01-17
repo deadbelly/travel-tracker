@@ -28,12 +28,12 @@ class Trip {
   returnStatusInfo() {
     if(this.status === 'pending'){
       return this.status
-    } else if (new Date().getTime() > new Date(this.date).getTime()) {
-      return 'past'
-    } else if (new Date().getTime() < new Date(this.date).getTime()+(1000 * 60 * 60 * 24 * this.duration)) {
+    } else if (new Date().getTime() < new Date(this.date).getTime()) {
       return 'upcoming'
-    } else {
+    } else if (new Date().getTime() <= new Date(this.date).getTime()+(1000 * 60 * 60 * 24 * this.duration)) {
       return 'in progress'
+    } else {
+      return 'past'
     }
   }
 }
