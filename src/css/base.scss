@@ -10,7 +10,7 @@ h1 {
   margin: none;
   & img{
     @include setDimensions(20%, 20%);
-
+  
   }
 }
 
