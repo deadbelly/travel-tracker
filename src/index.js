@@ -112,7 +112,6 @@ function getObjectFromInputs(trips) {
 }
 
 
-
 function setEndMin() {
   let nextDay = new Date();
   nextDay.setDate(new Date(startDateInput.value).getDate() + 1);
@@ -125,7 +124,6 @@ function setStartMin() {
 
 function updateCostMessage() {
   if (startDateInput.value && endDateInput.value) {
-    console.log('hi')
     const trip = new Trip(getObjectFromInputs({trips: []}), destinations)
     domUpdates.displayCostMessage(trip)
   } else {

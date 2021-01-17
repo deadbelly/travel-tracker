@@ -48,7 +48,7 @@ describe('Trip', () => {
   it('should have a date', () => {
     expect(trips[0].date).to.eq("2020/09/16");
     expect(trips[1].date).to.eq("2019/10/04");
-    expect(trips[2].date).to.eq("2020/05/22");
+    expect(trips[2].date).to.eq("2021/05/22");
   });
 
   it('should have a duration', () => {
@@ -63,10 +63,10 @@ describe('Trip', () => {
     expect(trips[2].status).to.eq('approved');
   });
 
-  it('should be able to return a "Pending" status', () => {
-    expect(trips[0].isPending()).to.eq('');
-    expect(trips[1].isPending()).to.eq('pending');
-    expect(trips[2].isPending()).to.eq('');
+  it('should be able to return if a trip is pending, past, ongoing, or upcoming', () => {
+    expect(trips[0].returnStatusInfo()).to.eq('past');
+    expect(trips[1].returnStatusInfo()).to.eq('pending');
+    expect(trips[2].returnStatusInfo()).to.eq('upcoming');
   });
 
   it('should have an empty array for suggested activities', () => {
