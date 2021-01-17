@@ -9,8 +9,7 @@ h1 {
   font-size: 5vmin;
   margin: none;
   & img{
-    @include setDimensions(20%, 20%);
-  
+    @include setDimensions(auto, 10%);
   }
 }
 
