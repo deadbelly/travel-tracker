@@ -21,7 +21,16 @@ const sidebar = document.querySelector('.sidebar');
 const main = document.querySelector('main');
 const tripList = document.querySelector('.trip-list');
 
+const startDateInput = document.querySelector('.trip-start');
+const endDateInput = document.querySelector('.trip-end');
+const formInputs = document.querySelectorAll('.new-trip-form__input');
+const destinationList = document.querySelector('.destination-list')
+const travelersInput = document.querySelector('.num-travelers');
+
 loginButton.addEventListener('click', fetchAndLoadDataModel)
+startDateInput.addEventListener('input', setEndMin)
+formInputs.forEach(input => addEventListener('input', updateCostMessage))
+
 
 function fetchAndLoadDataModel() {
   event.preventDefault;
@@ -38,7 +47,10 @@ function fetchAndLoadDataModel() {
         domUpdates.toggleHidden(loginPage);
         domUpdates.toggleHidden(main);
         domUpdates.toggleHidden(sidebar);
+        setStartMin()
         document.querySelector('.plan-trip-button').addEventListener('click', toggleFormView)
+        document.querySelector('.book-trip-button').addEventListener('click', bookTrip);
+        domUpdates.displayDestinationOptions(destinations, document.querySelector('.destination-list'))
       } else if (responses[0].message) {
         alert('LOGIN FAILED\ninvalid username');
       } else {
@@ -69,33 +81,13 @@ function toggleFormView() {
   document.querySelector('.welcome-message').classList.toggle('hidden');
   document.querySelector('.plan-trip-button').classList.toggle('hidden');
   document.querySelector('.new-trip-form').classList.toggle('hidden');
-  if(document.querySelector('.book-trip-button')) {
-    document.querySelector('.book-trip-button').classList.toggle('hidden');
-  }
-
-  domUpdates.displayNewTripForm(destinations);
-  document.querySelector('.book-trip-button').addEventListener('click', bookTrip);
 }
 
 function bookTrip() {
   event.preventDefault()
-  const destinationName = document.querySelector('.destination-list').value;
-  const startDate = document.querySelector('.trip-start').value;
-  const endDate = document.querySelector('.trip-end').value;
-  const travelers = document.querySelector('.num-travelers').value;
-  let formResponse;
 
   fetchRequests.getTrips().then(response => {
-    fetchRequests.postTrip({
-      id: response.trips.length + 1,
-      userID: user.id,
-      destinationID: destinations.find(destination => destination.destination === destinationName).id,
-      travelers: travelers,
-      date: new Date(startDate).toISOString().substring(0, 10).replaceAll('-', '/'),
-      duration: (new Date(endDate).getTime() - new Date(startDate).getTime())/(1000*60*60*24),
-      status: 'pending',
-      suggestedActivities: []
-    }).then(response => {
+    fetchRequests.postTrip(getObjectFromInputs(response)).then(response => {
       Promise.all(fetchRequests.getAllData(user.id)).then(responses => {
         generateClasses(responses[0], responses[1], responses[2]);
         domUpdates.clearTrips(tripList)
@@ -104,4 +96,39 @@ function bookTrip() {
       });
     });
   });
+}
+
+function getObjectFromInputs(trips) {
+  return {
+    id: trips.trips.length + 1,
+    userID: user.id,
+    destinationID: parseInt(destinationList.value),
+    travelers: travelersInput.value,
+    date: new Date(startDateInput.value).toISOString().substring(0, 10).replaceAll('-', '/'),
+    duration: (new Date(endDateInput.value).getTime() - new Date(startDateInput.value).getTime())/(1000*60*60*24),
+    status: 'pending',
+    suggestedActivities: []
+  }
+}
+
+
+
+function setEndMin() {
+  let nextDay = new Date();
+  nextDay.setDate(new Date(startDateInput.value).getDate() + 1);
+  endDateInput.setAttribute('min', nextDay.toISOString().substring(0, 10));
+}
+
+function setStartMin() {
+  startDateInput.setAttribute('min', new Date().toISOString().substring(0, 10));
+}
+
+function updateCostMessage() {
+  if (startDateInput.value && endDateInput.value) {
+    console.log('hi')
+    const trip = new Trip(getObjectFromInputs({trips: []}), destinations)
+    domUpdates.displayCostMessage(trip)
+  } else {
+    domUpdates.displayPendingMessage();
+  }
 }

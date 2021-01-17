@@ -45,8 +45,8 @@ const domUpdates = {
     document.querySelector('.new-trip-form').insertAdjacentHTML('afterbegin',
     `<select class="destination-list" name="">
     </select>
-    <input type="date" id="start" class="trip-start" min="${new Date().toDateString()}">
-    <input type="date" id="end" class="trip-end" min="${new Date().toDateString()}">
+    <input type="date" class="trip-start" min="${new Date().toISOString().substring(0, 10)}">
+    <input type="date" class="trip-end" min="${new Date().toISOString().substring(0, 10)}">
     <input type="number" class="num-travelers" value="1" min="1">
     <h3></h3>
     <button class="book-trip-button">book it</button>`);
@@ -54,10 +54,22 @@ const domUpdates = {
     this.displayDestinationOptions(destinations, document.querySelector('.destination-list'));
   },
 
+  clearNewTripForm() {
+    document.querySelector('.new-trip-form').innerHTML = ''
+  },
+
   displayDestinationOptions(destinations, destinationList) {
     destinations.sort((a, b) => a.destination.localeCompare(b.destination)).forEach(destination => {
-      destinationList.insertAdjacentHTML('beforeend', `<option value="${destination.destination}">${destination.destination}</option>`);
+      destinationList.insertAdjacentHTML('beforeend', `<option value="${destination.id}">${destination.destination}</option>`);
     });
+  },
+
+  displayPendingMessage() {
+    document.querySelector('.cost-message').innerHTML = 'select a start and end date and we\'ll calculate the price'
+  },
+
+  displayCostMessage(trip) {
+    document.querySelector('.cost-message').innerHTML = `${trip.cost.beforeAgent} + 10% agent fee = ${trip.cost.afterAgent}`
   }
 };
 
