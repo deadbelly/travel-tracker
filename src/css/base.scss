@@ -26,13 +26,24 @@ body {
   display: none !important;
 }
 
-.navbar {
+.sidebar {
   align-items: center;
   @include displayFlex(column, flex-start, nowrap);
   width: 30%;
   & img{
     position: relative;
     @include setDimensions(auto, 75%);
+  }
+}
+
+.new-trip-form {
+  align-items: center;
+  @include displayFlex(column, space-around, nowrap);
+  @include setDimensions(100%, 100%);
+  & input {
+    @include setDimensions(auto, 80%);
+    font-family: "Lato", sans-serif;
+    font-size: 2vmin;
   }
 }
 

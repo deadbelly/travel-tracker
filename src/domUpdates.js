@@ -24,15 +24,52 @@ const domUpdates = {
     </article>`);
   },
 
-  displayNavBar(user, navBar){
-    navBar.insertAdjacentHTML('afterbegin',
+  clearTrips(tripList) {
+    tripList.innerHTML = ''
+  },
+
+  displaySidebar(user, sidebar){
+    sidebar.insertAdjacentHTML('afterbegin',
     `<img src="./images/profpic.png" alt="user's profile picture">
     <h2>${user.name}</h2>
-    <h3>Welcome back, traveler!</h3>
-    <h3>Approved Trips: ${user.returnTripsByStatus('approved').length}
-      <br>Pending Trips: ${user.returnTripsByStatus('pending').length}
-      <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
-    <button type="button" name="button">plan a trip!</button>`)
+    <div class="welcome-message">
+      <h3>Welcome back, traveler!</h3>
+      <h3>Approved Trips: ${user.returnTripsByStatus('approved').length}
+        <br>Pending Trips: ${user.returnTripsByStatus('pending').length}
+        <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
+    </div>
+    <button class="plan-trip-button">plan a trip!</button>`);
+  },
+
+  displayNewTripForm(destinations) {
+    document.querySelector('.new-trip-form').insertAdjacentHTML('afterbegin',
+    `<select class="destination-list" name="">
+    </select>
+    <input type="date" class="trip-start" min="${new Date().toISOString().substring(0, 10)}">
+    <input type="date" class="trip-end" min="${new Date().toISOString().substring(0, 10)}">
+    <input type="number" class="num-travelers" value="1" min="1">
+    <h3></h3>
+    <button class="book-trip-button">book it</button>`);
+
+    this.displayDestinationOptions(destinations, document.querySelector('.destination-list'));
+  },
+
+  clearNewTripForm() {
+    document.querySelector('.new-trip-form').innerHTML = ''
+  },
+
+  displayDestinationOptions(destinations, destinationList) {
+    destinations.sort((a, b) => a.destination.localeCompare(b.destination)).forEach(destination => {
+      destinationList.insertAdjacentHTML('beforeend', `<option value="${destination.id}">${destination.destination}</option>`);
+    });
+  },
+
+  displayPendingMessage() {
+    document.querySelector('.cost-message').innerHTML = 'select a start and end date and we\'ll calculate the price'
+  },
+
+  displayCostMessage(trip) {
+    document.querySelector('.cost-message').innerHTML = `${trip.cost.beforeAgent} + 10% agent fee = ${trip.cost.afterAgent}`
   }
 };
 
