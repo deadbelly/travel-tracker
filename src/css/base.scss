@@ -79,7 +79,17 @@ body {
 }
 
 .sidebar-btn-area {
+  @include displayFlex(row-reverse, center, nowrap);
   @include setDimensions(20%, 100%);
+}
+
+.login-page{
+  align-self: center;
+  align-items: center;
+  @include displayFlex(column, center, nowrap);
+  @include setDimensions(50%, 50%);
+  text-align: center;
+  margin-left: 25%;
 }
 
 .new-trip-form {

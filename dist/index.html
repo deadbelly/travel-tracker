@@ -13,25 +13,28 @@
       <button class="login-button">login</button>
     </div>
     <section class="sidebar hidden">
-      <form class="new-trip-form hidden">
+      <form class="sidebar-content new-trip-form hidden">
         Destination
         <select class="destination-list new-trip-form__input" name="">
         </select>
-        Departure Date
+        Departure and Return Dates
         <input type="date" class="trip-start new-trip-form__input">
-        Return Date
         <input type="date" class="trip-end new-trip-form__input">
         Number of Travlers
         <input type="number" class="num-travelers new-trip-form__input" value="1" min="1">
-        <h3 class="cost-message">select a departure and return date and we'll calculate the price</h3>
-        <button class="book-trip-button">book it</button>
+        <h3 class="cost-message">waiting to calculate cost...</h3>
       </form>
-      <section class="plan-trip hidden">
-      </section>
+      <div class="sidebar-btn-area">
+        <button class="sidebar-btn book-trip-button hidden"><img src="./images/ticket-icon.png" alt="a map"><br>book it!</button>
+        <button class="sidebar-btn book-trip-button hidden"><img src="./images/arrow.png" alt="a map"><br>back</button>
+        <button class="sidebar-btn back-button hidden"><img src="./images/map-icon.png" alt="a map"><br>plan a trip</button>
+      </div>
     </section>
     <main class="hidden">
-      <h1>TRAVEL <img src="./images/travel-icon.png" alt="a plane circling the globe"> TRACKER</h1>
+      <h1>TRAVEL<img src="./images/globe-icon.png" alt="a plane circling the globe">TRACKER</h1>
       <section class="trip-list">
+      </section>
+      <section class="destination-preview hidden">
       </section>
     </main>
   <script src="main.bundle.js"></script></body>

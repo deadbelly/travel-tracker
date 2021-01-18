@@ -7,12 +7,11 @@ import domUpdates from './domUpdates';
 
 import './css/base.scss';
 import './images/profpic.png';
-import './images/icons/suitcase-icon.png'
-import './images/icons/location-icon.png'
-import './images/icons/map-icon.png'
-import './images/icons/ticket-icon.png'
-import './images/icons/globe-icon.png'
-import './images/icons/calendar-icon.png'
+import './images/arrow.png';
+import './images/icons/map-icon.png';
+import './images/icons/ticket-icon.png';
+import './images/icons/globe-icon.png';
+import './images/icons/suitcase-icon.png';
 
 let user;
 let destinations;
@@ -35,13 +34,14 @@ const formInputs = document.querySelectorAll('.new-trip-form__input');
 const destinationList = document.querySelector('.destination-list')
 const travelersInput = document.querySelector('.num-travelers');
 const bookTripButton = document.querySelector('.book-trip-button');
+const backButton = document.querySelector('.back-button')
 
 loginButton.addEventListener('click', fetchAndLoadDataModel)
 startDateInput.addEventListener('input', setEndMin)
 formInputs.forEach(input => addEventListener('input', updateFormDOM))
 planTripButton.addEventListener('click', toggleFormView)
 bookTripButton.addEventListener('click', bookTrip);
-
+backButton.addEventListener('click', toggleFormView)
 
 function fetchAndLoadDataModel() {
   event.preventDefault;
@@ -86,6 +86,7 @@ function toggleFormView() {
   bookTripButton.classList.toggle('hidden');
   destinationPreview.classList.toggle('hidden');
   tripList.classList.toggle('hidden');
+  backButton.classList.toggle('hidden');
   if(tripList.classList.contains('hidden')) {
     domUpdates.updatePreview(destinationPreview, destinationList, destinations);
   }
@@ -97,8 +98,8 @@ function bookTrip() {
   fetchRequests.getTrips().then(response => {
     fetchRequests.postTrip(getObjectFromInputs(response)).then(response => {
       Promise.all(fetchRequests.getAllData(user.id)).then(responses => {
-        generateClasses(responses[0], responses[1], responses[2])
-        displayTrips()
+        generateClasses(responses[0], responses[1], responses[2]);
+        displayTrips();
         toggleFormView();
       });
     });

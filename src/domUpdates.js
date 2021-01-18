@@ -33,9 +33,9 @@ const domUpdates = {
     <div class="sidebar-content welcome-message">
       <h3>Welcome back, traveler!
       <br> ---------
-      <br>Approved Trips: ${user.returnTripsByStatus('approved').length}
+      <br>Approved Trips: ${user.trips.length - user.filterByPending(user.trips).length}
       <br> ---------
-      <br>Pending Trips: ${user.returnTripsByStatus('pending').length}
+      <br>Pending Trips: ${user.filterByPending(user.trips).length}
       <br> ---------
       <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
     </div>`)
@@ -82,6 +82,11 @@ const domUpdates = {
         <h2>Lodging Cost Per Person Per Day: $${preview.estimatedLodgingCostPerDay}</h2>
       </div>
     </div>`
+  },
+
+  displayError(error) {
+    console.log(document.querySelector('.err-display'))
+    document.querySelector('.err-display').innerText = error
   }
 };
 
