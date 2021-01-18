@@ -70,6 +70,18 @@ const domUpdates = {
 
   displayCostMessage(trip) {
     document.querySelector('.cost-message').innerHTML = `$${trip.cost.beforeAgent} + 10% agent fee = $${trip.cost.afterAgent}`
+  },
+
+  updatePreview(destinationPreview, destinationList, destinations) {
+    const preview = destinations.find(destination => destination.id == destinationList.value)
+    destinationPreview.innerHTML =
+    `<div class="preview" style="background-image: url(${preview.image});">
+      <div class="cost-details"
+        <h1>${preview.destination}</h1>
+        <h2>Round Trip Airfare Per Person: ${preview.estimatedFlightCostPerPerson}</h2>
+        <h2>Lodging Cost Per Person Per Day: ${preview.estimatedLodgingCostPerDay}</h2>
+      </div>
+    </div>`
   }
 };
 

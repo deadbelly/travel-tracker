@@ -160,3 +160,20 @@ main {
     display: block;
   }
 }
+
+.preview{
+  @include displayFlex(row, center, nowrap);
+  background-size: 90% 90%;
+  background-position: center;
+  background-repeat: no-repeat;
+  @include setDimensions(350%, 100%);
+}
+
+.cost-details{
+  align-self: center;
+  font-family: "Lato", sans-serif;
+  background-color: black;
+  color: white;
+  opacity: 85%;
+  @include setDimensions(auto, 25%);
+}

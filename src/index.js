@@ -27,6 +27,7 @@ const planTripButton = document.querySelector('.plan-trip-button');
 
 const main = document.querySelector('main');
 const tripList = document.querySelector('.trip-list');
+const destinationPreview = document.querySelector('.destination-preview');
 
 const startDateInput = document.querySelector('.trip-start');
 const endDateInput = document.querySelector('.trip-end');
@@ -37,7 +38,7 @@ const bookTripButton = document.querySelector('.book-trip-button');
 
 loginButton.addEventListener('click', fetchAndLoadDataModel)
 startDateInput.addEventListener('input', setEndMin)
-formInputs.forEach(input => addEventListener('input', updateCostMessage))
+formInputs.forEach(input => addEventListener('input', updateFormDOM))
 planTripButton.addEventListener('click', toggleFormView)
 bookTripButton.addEventListener('click', bookTrip);
 
@@ -83,6 +84,11 @@ function toggleFormView() {
   planTripButton.classList.toggle('hidden');
   document.querySelector('.new-trip-form').classList.toggle('hidden');
   bookTripButton.classList.toggle('hidden');
+  destinationPreview.classList.toggle('hidden');
+  tripList.classList.toggle('hidden');
+  if(tripList.classList.contains('hidden')) {
+    domUpdates.updatePreview(destinationPreview, destinationList, destinations);
+  }
 }
 
 function bookTrip() {
@@ -140,11 +146,13 @@ function setStartMin() {
   startDateInput.setAttribute('min', new Date().toISOString().substring(0, 10));
 }
 
-function updateCostMessage() {
+function updateFormDOM() {
   if (startDateInput.value && endDateInput.value) {
     const trip = new Trip(getObjectFromInputs({trips: []}), destinations)
     domUpdates.displayCostMessage(trip)
   } else {
     domUpdates.displayPendingMessage();
   }
+
+  domUpdates.updatePreview(destinationPreview, destinationList, destinations)
 }
