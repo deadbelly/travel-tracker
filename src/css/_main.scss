@@ -1,0 +1,82 @@
+main {
+  @include displayFlex(column, flex-start, nowrap);
+  width: 70%;
+  overflow: hidden;
+  text-align: center;
+}
+
+.trip-list {
+  display: inline-block;
+  overflow-y: scroll;
+}
+
+.trip {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  @include setDimensions(22%, 100%);
+  transition: .8s ease;
+  overflow: hidden;
+  &:hover, &:focus-within{
+    @include setDimensions(40%, 100%);
+    & .trip__info-block--details {
+      display: block;
+    }
+  }
+}
+
+.trip__img {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @include setDimensions(100%, 100%);
+}
+
+.trip--wrapper {
+  background: none;
+  border: none;
+  top: 1%;
+  bottom: 1%;
+}
+
+.trip__info-block {
+  font-family: "Lato", sans-serif;
+  position: absolute;
+  bottom: 5%;
+  right: 3%;
+  background-color: $block-color;
+  color: $block-font-color;
+  padding-left: 5%;
+  padding-right: 5%;
+  opacity: 85%;
+  @include setDimensions(auto, 25%);
+}
+
+.trip__info-block--details{
+  display: none;
+  font-size: 2vmin;
+  text-align: left;
+  line-height: 1vmin;
+}
+
+.pending {
+  color: $pending-color;
+}
+
+.preview{
+  @include displayFlex(row, center, nowrap);
+  background-size: 90% 90%;
+  background-position: center;
+  background-repeat: no-repeat;
+  @include setDimensions(350%, 100%);
+}
+
+.cost-details{
+  align-self: center;
+  font-family: "Lato", sans-serif;
+  background-color: $block-color;
+  color: $block-font-color;
+  opacity: 85%;
+  @include setDimensions(auto, 25%);
+}

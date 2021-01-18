@@ -1,7 +1,10 @@
 @import 'variables';
+@import 'main';
+@import 'login-page';
+@import 'sidebar';
 
 html {
-  background-color: 	#F9F5F1;
+  background-color: 	$wash-color;
   font-family: "Lato", sans-serif;
 }
 
@@ -18,20 +21,12 @@ h3 {
 }
 
 body {
-  background-color:#FBFBF8;
+  background-color: $background-color;
   opacity: 95%;
   align-self: center;
   display: flex;
   height: 98vh;
   width: 99%;
-}
-
-.user-name{
-  line-height: 1vmin;
-}
-
-.traveler-type{
-  line-height: 1vmin;
 }
 
 #blockColorblindContent {
@@ -42,24 +37,7 @@ body {
   display: none !important;
 }
 
-.sidebar {
-  align-items: center;
-  @include displayFlex(column, flex-start, nowrap);
-  width: 30%;
-}
-
-.prof-pic{
-  position: relative;
-  @include setDimensions(auto, 75%);
-}
-
-.sidebar-content {
-  text-align: center;
-  @include displayFlex(column, center, nowrap);
-  @include setDimensions(30%, 100%);
-}
-
-.sidebar-btn {
+button {
   background: none;
   border: none;
   font-size: 2.8vmin;
@@ -68,122 +46,12 @@ body {
     @include setDimensions(auto, 20%);
   }
   &:hover {
+    transition: .4s ease;
     cursor: pointer;
     font-size: 3.2vmin;
-    transition: .4s ease;
     & img {
       @include setDimensions(auto, 25%);
       transition: .4s ease;
     }
   }
-}
-
-.sidebar-btn-area {
-  @include displayFlex(row-reverse, center, nowrap);
-  @include setDimensions(20%, 100%);
-}
-
-.login-page{
-  align-self: center;
-  align-items: center;
-  @include displayFlex(column, center, nowrap);
-  @include setDimensions(50%, 50%);
-  text-align: center;
-  margin-left: 25%;
-}
-
-.new-trip-form {
-  align-items: center;
-  @include displayFlex(column, space-around, nowrap);
-  & input {
-    @include setDimensions(auto, 80%);
-    font-family: "Lato", sans-serif;
-    font-size: 2vmin;
-  }
-}
-
-.pending {
-  color: #F9D1CB;
-}
-
-main {
-  @include displayFlex(column, flex-start, nowrap);
-  width: 70%;
-  overflow: hidden;
-  text-align: center;
-}
-
-.trip-list {
-  display: inline-block;
-  overflow-y: scroll;
-}
-
-.trip {
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-  @include setDimensions(22%, 100%);
-  transition: .8s ease;
-  overflow: hidden;
-  & .details{
-    display: none;
-    font-size: 2vmin;
-    text-align: left;
-    line-height: 1vmin;
-  }
-  & button {
-    background: none;
-    border: none;
-    top: 1%;
-    bottom: 1%;
-    & .info-block {
-      font-family: "Lato", sans-serif;
-      position: absolute;
-      bottom: 5%;
-      right: 3%;
-      background-color: black;
-      color: white;
-      padding-left: 5%;
-      padding-right: 5%;
-      opacity: 85%;
-      @include setDimensions(auto, 25%);
-    }
-  }
-  & img {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    @include setDimensions(100%, 100%);
-  }
-  &:hover {
-    @include setDimensions(40%, 100%);
-    & .details {
-      display: block;
-    }
-  }
-}
-
-.trip:focus-within {
-  @include setDimensions(40%, 100%);
-  & .details {
-    display: block;
-  }
-}
-
-.preview{
-  @include displayFlex(row, center, nowrap);
-  background-size: 90% 90%;
-  background-position: center;
-  background-repeat: no-repeat;
-  @include setDimensions(350%, 100%);
-}
-
-.cost-details{
-  align-self: center;
-  font-family: "Lato", sans-serif;
-  background-color: black;
-  color: white;
-  opacity: 85%;
-  @include setDimensions(auto, 25%);
 }

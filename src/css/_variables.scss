@@ -1,3 +1,10 @@
+$wash-color: #F9F5F1;
+$background-color: #FBFBF8;
+$pending-color: #F9D1CB;
+$block-color: black;
+$block-font-color: white;
+
+
 @mixin setDimensions($height, $width) {
   height: $height;
   width: $width;
