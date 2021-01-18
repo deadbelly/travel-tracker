@@ -89,7 +89,7 @@ const domUpdates = {
   },
 
   clearErrors(){
-    document.querySelector('.cost-message').innerText = 'waiting to calculate cost...''
+    document.querySelector('.cost-message').innerText = 'waiting to calculate cost...'
     document.querySelector('.login-errors').innerText = ''
   }
 };
