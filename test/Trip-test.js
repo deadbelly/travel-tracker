@@ -64,6 +64,7 @@ describe('Trip', () => {
   });
 
   it('should be able to return if a trip is pending, past, ongoing, or upcoming', () => {
+
     expect(trips[0].returnStatusInfo()).to.eq('past');
     expect(trips[1].returnStatusInfo()).to.eq('pending');
     expect(trips[2].returnStatusInfo()).to.eq('upcoming');

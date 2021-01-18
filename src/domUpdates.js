@@ -1,7 +1,4 @@
 const domUpdates = {
-  toggleHidden(ele) {
-    ele.classList.toggle('hidden');
-  },
 
   displayTrip(trip, destinations, tripList) {
     const destination = trip.findDestination(destinations);
@@ -30,15 +27,18 @@ const domUpdates = {
 
   displaySidebar(user, sidebar){
     sidebar.insertAdjacentHTML('afterbegin',
-    `<img src="./images/profpic.png" alt="user's profile picture">
-    <h2>${user.name}</h2>
-    <div class="welcome-message">
-      <h3>Welcome back, traveler!</h3>
-      <h3>Approved Trips: ${user.returnTripsByStatus('approved').length}
-        <br>Pending Trips: ${user.returnTripsByStatus('pending').length}
-        <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
-    </div>
-    <button class="plan-trip-button">plan a trip!</button>`);
+    `<img class="prof-pic" src="./images/profpic.png" alt="user's profile picture">
+    <h1 class="user-name">${user.name}</h1>
+    <h2 class="traveler-type">${user.travelerType}</h2>
+    <div class="sidebar-content welcome-message">
+      <h3>Welcome back, traveler!
+      <br> ---------
+      <br>Approved Trips: ${user.trips.length - user.filterByPending(user.trips).length}
+      <br> ---------
+      <br>Pending Trips: ${user.filterByPending(user.trips).length}
+      <br> ---------
+      <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
+    </div>`)
   },
 
   displayNewTripForm(destinations) {
@@ -64,12 +64,33 @@ const domUpdates = {
     });
   },
 
-  displayPendingMessage() {
-    document.querySelector('.cost-message').innerHTML = 'select a start and end date and we\'ll calculate the price'
+  displayCostMessage(trip) {
+    document.querySelector('.cost-message').innerHTML = `$${trip.cost.beforeAgent} + 10% agent fee = $${trip.cost.afterAgent}`
   },
 
-  displayCostMessage(trip) {
-    document.querySelector('.cost-message').innerHTML = `${trip.cost.beforeAgent} + 10% agent fee = ${trip.cost.afterAgent}`
+  updatePreview(destinationPreview, destinationList, destinations) {
+    const preview = destinations.find(destination => destination.id == destinationList.value)
+    destinationPreview.innerHTML =
+    `<div class="preview" style="background-image: url(${preview.image});">
+      <div class="cost-details"
+        <h1>${preview.destination}</h1>
+        <h2>Round Trip Airfare Per Person: $${preview.estimatedFlightCostPerPerson}</h2>
+        <h2>Lodging Cost Per Person Per Day: $${preview.estimatedLodgingCostPerDay}</h2>
+      </div>
+    </div>`
+  },
+
+  displayLoginError(error) {
+    document.querySelector('.login-errors').innerText = error;
+  },
+
+  displayFormError(error) {
+    document.querySelector('.cost-message').innerText = error
+  },
+
+  clearErrors(){
+    document.querySelector('.cost-message').innerText = 'waiting to calculate cost...'
+    document.querySelector('.login-errors').innerText = ''
   }
 };
 

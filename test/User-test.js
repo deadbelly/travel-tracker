@@ -46,20 +46,14 @@ describe('User', () => {
     user.trips.forEach(trip => expect(trip.date).to.be.an.instanceof(Date));
   });
 
-  it('should be able to return an array of approved trips', () => {
-    expect(user.returnTripsByStatus('approved')[0].id).to.eql(3);
-    expect(user.returnTripsByStatus('approved')[0].status).to.eql('approved');
-    expect(user.returnTripsByStatus('approved').length).to.eql(1);
-  });
-
   it('should be able to return an array of pending trips', () => {
-    expect(user.returnTripsByStatus('pending')[0].id).to.eq(2);
-    expect(user.returnTripsByStatus('pending')[0].status).to.eq('pending');
-      expect(user.returnTripsByStatus('pending').length).to.eql(1);
+    expect(user.filterByPending(user.trips)[0].id).to.eq(2);
+    expect(user.filterByPending(user.trips)[0].status).to.eq('pending');
+      expect(user.filterByPending(user.trips).length).to.eql(1);
   });
 
   it('should be able to return an array of trips this year', () => {
-    expect(user.returnTripsThisYear()[0].id).to.eql(3);
-    expect(user.returnTripsThisYear().length).to.eql(1);
+    expect(user.filterByThisYear(user.trips)[0].id).to.eql(3);
+    expect(user.filterByThisYear(user.trips).length).to.eql(1);
   });
 });

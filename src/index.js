@@ -7,6 +7,11 @@ import domUpdates from './domUpdates';
 
 import './css/base.scss';
 import './images/profpic.png';
+import './images/arrow.png';
+import './images/icons/map-icon.png';
+import './images/icons/ticket-icon.png';
+import './images/icons/globe-icon.png';
+import './images/icons/suitcase-icon.png';
 
 let user;
 let destinations;
@@ -17,20 +22,27 @@ const passwordInput = document.querySelector('.password-input');
 const loginButton = document.querySelector('.login-button');
 
 const sidebar = document.querySelector('.sidebar');
+const planTripButton = document.querySelector('.plan-trip-button');
 
 const main = document.querySelector('main');
 const tripList = document.querySelector('.trip-list');
+const destinationPreview = document.querySelector('.destination-preview');
 
 const startDateInput = document.querySelector('.trip-start');
 const endDateInput = document.querySelector('.trip-end');
 const formInputs = document.querySelectorAll('.new-trip-form__input');
 const destinationList = document.querySelector('.destination-list')
 const travelersInput = document.querySelector('.num-travelers');
+const bookTripButton = document.querySelector('.book-trip-button');
+const backButton = document.querySelector('.back-button')
+
 
 loginButton.addEventListener('click', fetchAndLoadDataModel)
 startDateInput.addEventListener('input', setEndMin)
-formInputs.forEach(input => addEventListener('input', updateCostMessage))
-
+formInputs.forEach(input => addEventListener('input', updateFormDOM))
+planTripButton.addEventListener('click', toggleFormView)
+bookTripButton.addEventListener('click', bookTrip);
+backButton.addEventListener('click', toggleFormView)
 
 function fetchAndLoadDataModel() {
   event.preventDefault;
@@ -41,21 +53,11 @@ function fetchAndLoadDataModel() {
   Promise.all(fetchRequests.getAllData(id))
     .then(responses => {
       if (checkLoginCredentials(responses[0], username, password, id)) {
-        generateClasses(responses[0], responses[1], responses[2]);
-        console.log(responses[1])
-        displayAllTrips();
-        domUpdates.displaySidebar(user, sidebar);
-        domUpdates.toggleHidden(loginPage);
-        domUpdates.toggleHidden(main);
-        domUpdates.toggleHidden(sidebar);
-        setStartMin()
-        document.querySelector('.plan-trip-button').addEventListener('click', toggleFormView)
-        document.querySelector('.book-trip-button').addEventListener('click', bookTrip);
-        domUpdates.displayDestinationOptions(destinations, document.querySelector('.destination-list'))
+        initializeDOM(responses[0], responses[1], responses[2])
       } else if (responses[0].message) {
-        alert('LOGIN FAILED\ninvalid username');
+        domUpdates.displayLoginError('LOGIN FAILED\ninvalid username');
       } else {
-        alert('LOGIN FAILED\ninvalid password');
+        domUpdates.displayLoginError('LOGIN FAILED\ninvalid password');
       }
     });
 }
@@ -80,23 +82,49 @@ function displayAllTrips() {
 
 function toggleFormView() {
   document.querySelector('.welcome-message').classList.toggle('hidden');
-  document.querySelector('.plan-trip-button').classList.toggle('hidden');
+  planTripButton.classList.toggle('hidden');
   document.querySelector('.new-trip-form').classList.toggle('hidden');
+  bookTripButton.classList.toggle('hidden');
+  destinationPreview.classList.toggle('hidden');
+  tripList.classList.toggle('hidden');
+  backButton.classList.toggle('hidden');
+  domUpdates.clearErrors();
+  if(tripList.classList.contains('hidden')) {
+    domUpdates.updatePreview(destinationPreview, destinationList, destinations);
+  }
 }
 
 function bookTrip() {
   event.preventDefault()
-
+  if (!startDateInput.value || !endDateInput.value) {
+    domUpdates.displayFormError('please fill out all required inputs')
+  }
   fetchRequests.getTrips().then(response => {
     fetchRequests.postTrip(getObjectFromInputs(response)).then(response => {
       Promise.all(fetchRequests.getAllData(user.id)).then(responses => {
         generateClasses(responses[0], responses[1], responses[2]);
-        domUpdates.clearTrips(tripList)
-        displayAllTrips();
+        displayTrips();
         toggleFormView();
       });
     });
   });
+}
+
+function displayTrips() {
+  domUpdates.clearTrips(tripList)
+  displayAllTrips();
+}
+
+function initializeDOM(userData, recipeData, destinationData) {
+  generateClasses(userData, recipeData, destinationData)
+  displayTrips()
+  domUpdates.displaySidebar(user, sidebar);
+  loginPage.classList.toggle('hidden');
+  main.classList.toggle('hidden');
+  sidebar.classList.toggle('hidden');
+  setStartMin()
+  planTripButton.classList.toggle('hidden')
+  domUpdates.displayDestinationOptions(destinations, document.querySelector('.destination-list'))
 }
 
 function getObjectFromInputs(trips) {
@@ -123,11 +151,10 @@ function setStartMin() {
   startDateInput.setAttribute('min', new Date().toISOString().substring(0, 10));
 }
 
-function updateCostMessage() {
+function updateFormDOM() {
   if (startDateInput.value && endDateInput.value) {
     const trip = new Trip(getObjectFromInputs({trips: []}), destinations)
     domUpdates.displayCostMessage(trip)
-  } else {
-    domUpdates.displayPendingMessage();
   }
+  domUpdates.updatePreview(destinationPreview, destinationList, destinations)
 }

@@ -21,16 +21,16 @@ class User {
     return tripData.sort((a, b) => b.date - a.date);
   }
 
-  returnTripsByStatus(status) {
-    return this.trips.filter(trip => trip.status === status);
+  filterByPending(tripsArray) {
+    return tripsArray.filter(trip => trip.status === 'pending');
   }
 
-  returnTripsThisYear() {
-    return this.trips.filter(trip => (new Date().getFullYear() - trip.date.getFullYear()) <= 1);
+  filterByThisYear(tripsArray) {
+    return tripsArray.filter(trip => (new Date().getFullYear() - trip.date.getFullYear()) <= 1);
   }
 
   getCostForYear() {
-  return this.returnTripsThisYear().reduce((totalCost, trip) => {
+  return this.filterByThisYear(this.filterByPending(this.trips)).reduce((totalCost, trip) => {
     totalCost += trip.cost.afterAgent;
     return totalCost;
   }, 0);
