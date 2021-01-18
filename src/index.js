@@ -55,9 +55,9 @@ function fetchAndLoadDataModel() {
       if (checkLoginCredentials(responses[0], username, password, id)) {
         initializeDOM(responses[0], responses[1], responses[2])
       } else if (responses[0].message) {
-        domUpdates.displayError('LOGIN FAILED\ninvalid username');
+        domUpdates.displayLoginError('LOGIN FAILED\ninvalid username');
       } else {
-        domUpdates.displayError('LOGIN FAILED\ninvalid password');
+        domUpdates.displayLoginError('LOGIN FAILED\ninvalid password');
       }
     });
 }
