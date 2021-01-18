@@ -78,8 +78,8 @@ const domUpdates = {
     `<div class="preview" style="background-image: url(${preview.image});">
       <div class="cost-details"
         <h1>${preview.destination}</h1>
-        <h2>Round Trip Airfare Per Person: ${preview.estimatedFlightCostPerPerson}</h2>
-        <h2>Lodging Cost Per Person Per Day: ${preview.estimatedLodgingCostPerDay}</h2>
+        <h2>Round Trip Airfare Per Person: $${preview.estimatedFlightCostPerPerson}</h2>
+        <h2>Lodging Cost Per Person Per Day: $${preview.estimatedLodgingCostPerDay}</h2>
       </div>
     </div>`
   }
