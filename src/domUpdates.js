@@ -64,10 +64,6 @@ const domUpdates = {
     });
   },
 
-  displayPendingMessage() {
-    document.querySelector('.cost-message').innerHTML = 'select a start and end date and we\'ll calculate the cost'
-  },
-
   displayCostMessage(trip) {
     document.querySelector('.cost-message').innerHTML = `$${trip.cost.beforeAgent} + 10% agent fee = $${trip.cost.afterAgent}`
   },
@@ -84,9 +80,17 @@ const domUpdates = {
     </div>`
   },
 
-  displayError(error) {
-    console.log(document.querySelector('.err-display'))
-    document.querySelector('.err-display').innerText = error
+  displayLoginError(error) {
+    document.querySelector('.login-errors').innerText = error;
+  },
+
+  displayFormError(error) {
+    document.querySelector('.cost-message').innerText = error
+  },
+
+  clearErrors(){
+    document.querySelector('.cost-message').innerText = 'waiting to calculate cost...''
+    document.querySelector('.login-errors').innerText = ''
   }
 };
 

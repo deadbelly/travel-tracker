@@ -36,6 +36,7 @@ const travelersInput = document.querySelector('.num-travelers');
 const bookTripButton = document.querySelector('.book-trip-button');
 const backButton = document.querySelector('.back-button')
 
+
 loginButton.addEventListener('click', fetchAndLoadDataModel)
 startDateInput.addEventListener('input', setEndMin)
 formInputs.forEach(input => addEventListener('input', updateFormDOM))
@@ -54,9 +55,9 @@ function fetchAndLoadDataModel() {
       if (checkLoginCredentials(responses[0], username, password, id)) {
         initializeDOM(responses[0], responses[1], responses[2])
       } else if (responses[0].message) {
-        alert('LOGIN FAILED\ninvalid username');
+        domUpdates.displayError('LOGIN FAILED\ninvalid username');
       } else {
-        alert('LOGIN FAILED\ninvalid password');
+        domUpdates.displayError('LOGIN FAILED\ninvalid password');
       }
     });
 }
@@ -87,6 +88,7 @@ function toggleFormView() {
   destinationPreview.classList.toggle('hidden');
   tripList.classList.toggle('hidden');
   backButton.classList.toggle('hidden');
+  domUpdates.clearErrors();
   if(tripList.classList.contains('hidden')) {
     domUpdates.updatePreview(destinationPreview, destinationList, destinations);
   }
@@ -94,7 +96,9 @@ function toggleFormView() {
 
 function bookTrip() {
   event.preventDefault()
-
+  if (!startDateInput.value || !endDateInput.value) {
+    domUpdates.displayFormError('please fill out all required inputs')
+  }
   fetchRequests.getTrips().then(response => {
     fetchRequests.postTrip(getObjectFromInputs(response)).then(response => {
       Promise.all(fetchRequests.getAllData(user.id)).then(responses => {
@@ -151,9 +155,6 @@ function updateFormDOM() {
   if (startDateInput.value && endDateInput.value) {
     const trip = new Trip(getObjectFromInputs({trips: []}), destinations)
     domUpdates.displayCostMessage(trip)
-  } else {
-    domUpdates.displayPendingMessage();
   }
-
   domUpdates.updatePreview(destinationPreview, destinationList, destinations)
 }
