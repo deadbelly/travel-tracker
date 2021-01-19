@@ -32,10 +32,10 @@ const destinationPreview = document.querySelector('.destination-preview');
 const startDateInput = document.querySelector('.trip-start');
 const endDateInput = document.querySelector('.trip-end');
 const formInputs = document.querySelectorAll('.new-trip-form__input');
-const destinationList = document.querySelector('.destination-list')
+const destinationList = document.querySelector('.destination-list');
 const travelersInput = document.querySelector('.number-of-travelers');
 const bookTripButton = document.querySelector('.book-trip-button');
-const backButton = document.querySelector('.back-button')
+const backButton = document.querySelector('.back-button');
 
 const filterOptions = document.querySelector('.filter-options');
 const showPending = document.querySelector('.show-only-pending');
@@ -45,28 +45,31 @@ const filterButton = document.querySelector('.filter-button');
 
 const agentTools = document.querySelector('.agent-tools');
 const idSelect = document.querySelector('.id-select');
-const suggestedActivities = document.querySelector('.suggested-activities')
+const suggestedActivities = document.querySelector('.suggested-activities');
 const rejectButton = document.querySelector('.reject-button');
 const approveButton = document.querySelector('.approve-button');
 
 
-loginButton.addEventListener('click', fetchAndLoadDataModel)
-startDateInput.addEventListener('input', setEndMin)
-formInputs.forEach(input => addEventListener('input', updateFormDOM))
-planTripButton.addEventListener('click', toggleFormView)
+loginButton.addEventListener('click', fetchAndLoadDataModel);
+startDateInput.addEventListener('input', setEndMin);
+formInputs.forEach(input => addEventListener('input', updateFormDOM));
+planTripButton.addEventListener('click', toggleFormView);
 bookTripButton.addEventListener('click', bookTrip);
 backButton.addEventListener('click', toggleFormView);
 filterButton.addEventListener('click', filterTrips);
 rejectButton.addEventListener('click', rejectAndRemove);
 approveButton.addEventListener('click', approveAndModify);
 
+
+
+//INITIAL LOAD
 function fetchAndLoadDataModel() {
-  event.preventDefault;
+  event.preventDefault();
 
   Promise.all(fetchRequests.getAllData(checkLoginCredentials()))
     .then(responses => {
       if (!responses[0].message) {
-        initializeDOM(responses[0], responses[1], responses[2])
+        initializeDOM(responses[0], responses[1], responses[2]);
       } else {
         domUpdates.displayLoginError('LOGIN FAILED\ninvalid username');
       }
@@ -85,18 +88,30 @@ function checkLoginCredentials() {
   let id;
 
   if (username.match(/\d+/) !== null) {
-    id = username.match(/\d+/)[0]
+    id = username.match(/\d+/)[0];
   }
 
   if (username === 'agent' && password === 'travel2020'){
-    loadAgentTools()
+    loadAgentTools();
   } else if(!id || username !== `traveler${id}`) {
     domUpdates.displayLoginError('LOGIN FAILED\ninvalid username');
   } else if (!password === 'travel2020') {
     domUpdates.displayLoginError('LOGIN FAILED\ninvalid password');
   } else {
-    return id
+    return id;
   }
+}
+
+function initializeDOM(userData, recipeData, destinationData) {
+  generateClasses(userData, recipeData, destinationData);
+  updateTripDisplay();
+  domUpdates.displaySidebar(user, sidebar);
+  loginPage.classList.toggle('hidden');
+  main.classList.toggle('hidden');
+  sidebar.classList.toggle('hidden');
+  setStartMin();
+  planTripButton.classList.toggle('hidden');
+  domUpdates.displayDestinationOptions(destinations, document.querySelector('.destination-list'));
 }
 
 function displayAllTrips() {
@@ -104,6 +119,31 @@ function displayAllTrips() {
     domUpdates.displayTrip(trip, destinations, tripList);
   });
 }
+
+function loadAgentTools() {
+  Promise.all(fetchRequests.getAgentData())
+    .then(responses => {
+      generateAgentDataModel(responses[0], responses[1], responses[2]);
+      initializeAgentDOM();
+    });
+}
+
+function generateAgentDataModel(travelerData, tripData, destinationData) {
+  destinations = destinationData.destinations.map(data => new Destination(data));
+  user = new Agent(travelerData.travelers, tripData.trips, destinations);
+}
+
+function initializeAgentDOM() {
+  loginPage.classList.toggle('hidden');
+  main.classList.toggle('hidden');
+  sidebar.classList.toggle('hidden');
+  agentTools.classList.toggle('hidden');
+  filterOptions.classList.toggle('hidden');
+  displayAllTrips();
+  domUpdates.displayAgentDOM(user, sidebar);
+}
+
+//CALL domUpdates
 
 function toggleFormView() {
   document.querySelector('.welcome-message').classList.toggle('hidden');
@@ -119,52 +159,10 @@ function toggleFormView() {
   }
 }
 
-function bookTrip() {
-  event.preventDefault()
-  if (!startDateInput.value || !endDateInput.value) {
-    domUpdates.displayFormError('please fill out all required inputs');
-  }
-  fetchRequests.getTrips().then(response => {
-    fetchRequests.postTrip(getObjectFromInputs(response)).then(response => {
-      Promise.all(fetchRequests.getAllData(user.id)).then(responses => {
-        generateClasses(responses[0], responses[1], responses[2]);
-        displayTrips();
-        toggleFormView();
-      });
-    });
-  });
-}
-
-function displayTrips() {
+function updateTripDisplay() {
   domUpdates.clearTrips(tripList);
   displayAllTrips();
 }
-
-function initializeDOM(userData, recipeData, destinationData) {
-  generateClasses(userData, recipeData, destinationData);
-  displayTrips();
-  domUpdates.displaySidebar(user, sidebar);
-  loginPage.classList.toggle('hidden');
-  main.classList.toggle('hidden');
-  sidebar.classList.toggle('hidden');
-  setStartMin();
-  planTripButton.classList.toggle('hidden');
-  domUpdates.displayDestinationOptions(destinations, document.querySelector('.destination-list'));
-}
-
-function getObjectFromInputs(trips) {
-  return {
-    id: trips.trips.length + 1,
-    userID: user.id,
-    destinationID: parseInt(destinationList.value),
-    travelers: travelersInput.value,
-    date: new Date(startDateInput.value).toISOString().substring(0, 10).replaceAll('-', '/'),
-    duration: (new Date(endDateInput.value).getTime() - new Date(startDateInput.value).getTime())/(1000*60*60*24),
-    status: 'pending',
-    suggestedActivities: []
-  }
-}
-
 
 function setEndMin() {
   let nextDay = new Date();
@@ -178,30 +176,66 @@ function setStartMin() {
 
 function updateFormDOM() {
   if (startDateInput.value && endDateInput.value) {
-    const trip = new Trip(getObjectFromInputs({trips: []}), destinations)
-    domUpdates.displayCostMessage(trip)
+    const trip = new Trip(getObjectFromInputs({trips: []}), destinations);
+    domUpdates.displayCostMessage(trip);
   }
-  domUpdates.updatePreview(destinationPreview, destinationList, destinations)
-}
-
-///AGENT STUFF
-
-function loadAgentTools() {
-  Promise.all(fetchRequests.getAgentData())
-    .then(responses => {
-            destinations = responses[2].destinations.map(data => new Destination(data));
-      user = new Agent(responses[0].travelers, responses[1].trips, destinations);
-      loginPage.classList.toggle('hidden');
-      main.classList.toggle('hidden');
-      sidebar.classList.toggle('hidden');
-      agentTools.classList.toggle('hidden');
-      filterOptions.classList.toggle('hidden');
-      displayAllTrips()
-      domUpdates.displayAgentDOM(user, sidebar);
-    });
+  domUpdates.updatePreview(destinationPreview, destinationList, destinations);
 }
 
 function filterTrips() {
+  checkFilterBoxes();
+  user.trips = user.generateTrips();
+  domUpdates.updateUserSpending(user, user.userSelect);
+  domUpdates.clearTrips(tripList);
+  displayAllTrips();
+  domUpdates.addTripIDDisplay();
+  domUpdates.addIDOptions();
+}
+
+function updateAgentDOM() {
+  Promise.all(fetchRequests.getAgentData())
+    .then(responses => {
+      destinations = responses[2].destinations.map(data => new Destination(data));
+      user = new Agent(responses[0].travelers, responses[1].trips, destinations);
+      document.querySelector('.agent-info').remove();
+      domUpdates.displayAgentDOM(user, sidebar);
+      filterTrips();
+    });
+}
+
+//CALL fetchRequests
+
+function bookTrip() {
+  event.preventDefault();
+  if (!startDateInput.value || !endDateInput.value) {
+    domUpdates.displayFormError('please fill out all required inputs');
+  }
+  fetchRequests.getTrips().then(response => {
+    fetchRequests.postTrip(getObjectFromInputs(response)).then(response => {
+      Promise.all(fetchRequests.getAllData(user.id)).then(responses => {
+        generateClasses(responses[0], responses[1], responses[2]);
+        updateTripDisplay();
+        toggleFormView();
+        domUpdates.displayWelcomeMessage(user);
+      });
+    });
+  });
+}
+
+function getObjectFromInputs(trips) {
+  return {
+    id: trips.trips.length + 1,
+    userID: user.id,
+    destinationID: parseInt(destinationList.value),
+    travelers: travelersInput.value,
+    date: new Date(startDateInput.value).toISOString().substring(0, 10).replaceAll('-', '/'),
+    duration: (new Date(endDateInput.value).getTime() - new Date(startDateInput.value).getTime())/(1000*60*60*24),
+    status: 'pending',
+    suggestedActivities: []
+  };
+}
+
+function checkFilterBoxes() {
   if (showPending.checked) {
     user.pendingFilter = true;
   } else {
@@ -215,27 +249,13 @@ function filterTrips() {
   if(filterByName.value) {
     user.userSelect = user.allUsers.find(user => user.name.includes(filterByName.value)).id;
   } else {
-    user.userSelect = 0
+    user.userSelect = 0;
   }
-
-
-  user.trips = user.generateTrips()
-  domUpdates.updateUserSpending(user, user.userSelect);
-  domUpdates.clearTrips(tripList)
-  displayAllTrips()
-  domUpdates.addTripIDDisplay()
-  domUpdates.addIDOptions()
 }
 
 function rejectAndRemove() {
   fetchRequests.deleteTrip(idSelect.value);
-  Promise.all(fetchRequests.getAgentData())
-    .then(responses => {
-            destinations = responses[2].destinations.map(data => new Destination(data));
-      user = new Agent(responses[0].travelers, responses[1].trips, destinations);
-      domUpdates.displayAgentDOM(user, sidebar);
-      filterTrips();
-    });
+  updateAgentDOM();
 }
 
 function getApprovalObject() {
@@ -250,13 +270,6 @@ function getApprovalObject() {
 
 function approveAndModify() {
   fetchRequests.approveAndModifyTrip(getApprovalObject()).then(response => {
-    Promise.all(fetchRequests.getAgentData())
-      .then(responses => {
-        destinations = responses[2].destinations.map(data => new Destination(data));
-        user = new Agent(responses[0].travelers, responses[1].trips, destinations);
-        document.querySelector('.agent-info').remove();
-        domUpdates.displayAgentDOM(user, sidebar);
-        filterTrips();
-      });
+    updateAgentDOM();
   });
 }

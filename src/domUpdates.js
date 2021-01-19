@@ -31,14 +31,19 @@ const domUpdates = {
     <h1 class="user-name">${user.name}</h1>
     <h2 class="traveler-type">${user.travelerType}</h2>
     <div class="sidebar-content welcome-message">
-      <h3>Welcome back, traveler!
-      <br> ---------
-      <br>Approved Trips: ${user.filterByStatus(user.trips, 'approved').length}
-      <br> ---------
-      <br>Pending Trips: ${user.filterByStatus(user.trips, 'pending').length}
-      <br> ---------
-      <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
-    </div>`)
+    </div>`);
+    this.displayWelcomeMessage(user);
+  },
+
+  displayWelcomeMessage(user) {
+    let welcomeMessage = document.querySelector('.welcome-message').innerHTML = `
+        <h3>Welcome back, traveler!
+        <br> ---------
+        <br>Approved Trips: ${user.filterByStatus(user.trips, 'approved').length}
+        <br> ---------
+        <br>Pending Trips: ${user.filterByStatus(user.trips, 'pending').length}
+        <br> ---------
+        <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>`;
   },
 
   displayNewTripForm(destinations) {
@@ -69,15 +74,17 @@ const domUpdates = {
   },
 
   updatePreview(destinationPreview, destinationList, destinations) {
-    const preview = destinations.find(destination => destination.id == destinationList.value)
-    destinationPreview.innerHTML =
-    `<div class="preview" style="background-image: url(${preview.image});">
-      <div class="cost-details"
-        <h1>${preview.destination}</h1>
-        <h2>Round Trip Airfare Per Person: $${preview.estimatedFlightCostPerPerson}</h2>
-        <h2>Lodging Cost Per Person Per Day: $${preview.estimatedLodgingCostPerDay}</h2>
-      </div>
-    </div>`
+    if(destinations) {
+      const preview = destinations.find(destination => destination.id == destinationList.value)
+      destinationPreview.innerHTML =
+      `<div class="preview" style="background-image: url(${preview.image});">
+        <div class="cost-details"
+          <h1>${preview.destination}</h1>
+          <h2>Round Trip Airfare Per Person: $${preview.estimatedFlightCostPerPerson}</h2>
+          <h2>Lodging Cost Per Person Per Day: $${preview.estimatedLodgingCostPerDay}</h2>
+        </div>
+      </div>`
+    }
   },
 
   displayLoginError(error) {
