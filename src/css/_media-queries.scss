@@ -2,6 +2,10 @@
   body {
     @include displayFlex(row, flex-start, nowrap);
   }
+
+  h3 {
+    font-size: 2.5vmin;
+  }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -14,10 +18,9 @@
   body {
     display: grid;
     grid-template-columns: 1fr;
-    // grid-template-rows: 1fr 1fr;
   }
 
-  h1 {
+  p, .pending, h3 {
     font-size: 2vmin;
   }
 
@@ -26,7 +29,6 @@
   }
 
   .prof-pic{
-    position: relative;
     @include setDimensions(auto, 20%);
   }
 
@@ -34,15 +36,19 @@
     @include setDimensions(auto, 100%);
   }
 
-  button {
-    @include setDimensions(20px, auto);
+  .plan-trip-button {
+    @include setDimensions(auto, 50%);
   }
 
   .trip {
-    @include setDimensions(30%, 100%);
+    @include setDimensions(50%, 100%);
     &:hover, &:focus-within{
-      @include setDimensions(60%, 100%);
+      @include setDimensions(70%, 100%);
     }
+  }
+
+  .trip__img{
+    @include setDimensions(100%, auto);
   }
 
   .desktop-title {
@@ -51,5 +57,11 @@
 
   .preview {
   display: none;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  p, .pending, h3 {
+    font-size: 4vmin;
   }
 }

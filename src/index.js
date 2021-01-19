@@ -71,7 +71,7 @@ function checkLoginCredentials() {
     id = username.match(/\d+/)[0]
   }
 
-  if(!id || !username === `traveler${id}`) {
+  if(!id || username !== `traveler${id}`) {
     domUpdates.displayLoginError('LOGIN FAILED\ninvalid username');
   } else if (!password === 'travel2020') {
     domUpdates.displayLoginError('LOGIN FAILED\ninvalid password');
@@ -158,7 +158,6 @@ function setStartMin() {
 }
 
 function updateFormDOM() {
-  console.log(destinationList)
   if (startDateInput.value && endDateInput.value) {
     const trip = new Trip(getObjectFromInputs({trips: []}), destinations)
     domUpdates.displayCostMessage(trip)
