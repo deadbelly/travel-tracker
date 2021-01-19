@@ -37,12 +37,20 @@ const travelersInput = document.querySelector('.number-of-travelers');
 const bookTripButton = document.querySelector('.book-trip-button');
 const backButton = document.querySelector('.back-button')
 
+const filterOptions = document.querySelector('.filter-options');
+const agentTools = document.querySelector('.agent-tools');
+const showPending = document.querySelector('.show-only-pending');
+const showUpcoming = document.querySelector('.show-only-upcoming');
+const filterByName = document.querySelector('.filter-by-name');
+const filterButton = document.querySelector('.filter-button');
+
 loginButton.addEventListener('click', fetchAndLoadDataModel)
 startDateInput.addEventListener('input', setEndMin)
 formInputs.forEach(input => addEventListener('input', updateFormDOM))
 planTripButton.addEventListener('click', toggleFormView)
 bookTripButton.addEventListener('click', bookTrip);
-backButton.addEventListener('click', toggleFormView)
+backButton.addEventListener('click', toggleFormView);
+filterButton.addEventListener('click', filterTrips);
 
 function fetchAndLoadDataModel() {
   event.preventDefault;
@@ -171,12 +179,36 @@ function updateFormDOM() {
 function loadAgentTools() {
   Promise.all(fetchRequests.getAgentData())
     .then(responses => {
-      destinations = responses[2].destinations.map(data => new Destination(data));
+            destinations = responses[2].destinations.map(data => new Destination(data));
+      user = new Agent(responses[0].travelers, responses[1].trips, destinations);
       loginPage.classList.toggle('hidden');
       main.classList.toggle('hidden');
       sidebar.classList.toggle('hidden');
-      user = new Agent(responses[0].travelers, responses[1].trips, destinations);
+      agentTools.classList.toggle('hidden');
+      filterOptions.classList.toggle('hidden');
       displayAllTrips()
       domUpdates.displayAgentDOM(user, sidebar);
     });
+}
+
+function filterTrips() {
+  if (showPending.checked) {
+    user.pendingFilter = true;
+  } else {
+    user.pendingFilter = false;
+  }
+  if(showUpcoming.checked) {
+    user.upcomingFilter = true;
+  } else {
+    user.upcomingFilter = false;
+  }
+  if(filterByName.value) {
+    user.userSelect = user.allUsers.find(user => user.name.includes(filterByName.value)).id
+  } else {
+    user.userSelect = 0
+  }
+
+  user.trips = user.generateTrips()
+  domUpdates.clearTrips(tripList)
+  displayAllTrips()
 }

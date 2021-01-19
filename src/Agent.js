@@ -2,7 +2,6 @@ import User from './User'
 
 class Agent {
   constructor(travelerData, tripData, destinations) {
-    console.log(destinations)
     this.allUsers = this.generateAllUsers(travelerData, tripData, destinations);
     this.pendingFilter = true;
     this.upcomingFilter = false;
@@ -21,7 +20,7 @@ class Agent {
   }
 
   filterByUpcoming(tripsArray) {
-    return tripsArray.filter(trip => trip.getStatusInfo() === 'upcoming');
+    return tripsArray.filter(trip => trip.returnStatusInfo() === 'upcoming');
   }
 
   filterByUser(tripsArray) {
@@ -42,7 +41,7 @@ class Agent {
     }
 
     if(this.userSelect > 0) {
-      trips = this.filterByUser();
+      trips = this.filterByUser(trips);
     }
 
     return trips;
