@@ -5,7 +5,7 @@ const domUpdates = {
 
     tripList.insertAdjacentHTML('beforeend',
     `<article aria-label="trip-details" class="trip">
-      <div tabindex="0" class="trip--wrapper">
+      <div tabindex="0" class="trip--wrapper" id="${trip.id}">
         <img class="trip__img" src="${destination.image}"  alt="${destination.alt}">
         <div class="trip__info-block">
           <h2>${destination.destination}</h2>
@@ -33,9 +33,9 @@ const domUpdates = {
     <div class="sidebar-content welcome-message">
       <h3>Welcome back, traveler!
       <br> ---------
-      <br>Approved Trips: ${user.trips.length - user.filterByPending(user.trips).length}
+      <br>Approved Trips: ${user.filterByStatus(user.trips, 'approved').length}
       <br> ---------
-      <br>Pending Trips: ${user.filterByPending(user.trips).length}
+      <br>Pending Trips: ${user.filterByStatus(user.trips, 'pending').length}
       <br> ---------
       <br>In the past year you've spent $${user.getCostForYear()} on Travel</h3>
     </div>`)
