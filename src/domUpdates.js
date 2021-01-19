@@ -91,6 +91,29 @@ const domUpdates = {
   clearErrors(){
     document.querySelector('.cost-message').innerText = 'waiting to calculate cost...'
     document.querySelector('.login-errors').innerText = ''
+  },
+
+  displayAgentDOM(agent, sidebar) {
+    sidebar.insertAdjacentHTML('afterbegin',
+    `<h1>GROSS INCOME THIS YEAR: ${agent.incomeThisYear}</h1>
+    <h3>there are ${agent.currentTravelers} travelers on trips right now</h3>
+    <div class="filter-options">
+      <label for="name-filter">Filter By Name</label>
+      <input aria-label="filter-by-name" type="text" name="name-filter" value="">
+      <label for="show-only-pending">Only Pending Trips</label>
+      <input type="checkbox" name="show-only-pending">
+      <label for="show-only-upcoming">Only Upcoming Trips</label>
+      <input type="checkbox" name="show-only-upcoming">
+      <button type="button" class="filter-button">filter results</button>
+    </div>
+    <div class="agent-tools">
+      <label for="id-select">TRIP ID</label>
+      <select aria-label="select-trip-id" type="number" name="id-select"></select>
+      <label for="suggested-activities">suggest activities</label>
+      <input aria-label="add-suggested-activities" type="text" name="suggested-activities">
+      <button aria-label="approve-and/or-modify-trip" type="button" name="approve">approve and modify</button>
+      <button aria-label="reject-or-remove-trip" type="button" name="reject">reject and remove</button>
+    </div>`)
   }
 };
 

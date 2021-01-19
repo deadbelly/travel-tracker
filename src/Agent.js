@@ -1,5 +1,8 @@
+import User from './User'
+
 class Agent {
   constructor(travelerData, tripData, destinations) {
+    console.log(destinations)
     this.allUsers = this.generateAllUsers(travelerData, tripData, destinations);
     this.pendingFilter = true;
     this.upcomingFilter = false;
@@ -10,7 +13,7 @@ class Agent {
   }
 
   generateAllUsers(travelerData, tripData, destinations) {
-    return userData.map(user => new User(tripData, destinations));
+    return travelerData.map(traveler => new User(traveler, tripData, destinations));
   }
 
   filterByStatus(tripsArray, status) {

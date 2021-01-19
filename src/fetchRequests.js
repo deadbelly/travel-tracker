@@ -8,6 +8,12 @@ const fetchRequests = {
       .catch(err => domUpdates.displayLoginError(err));
   },
 
+  getAllTravelers() {
+    return fetch(`http://localhost:3001/api/v1/travelers`)
+    .then(response => response.json())
+      .catch(err => domUpdates.displayLoginError(err));
+  },
+
   getTrips() {
     return fetch('http://localhost:3001/api/v1/trips')
     .then(response => response.json())
@@ -24,7 +30,11 @@ const fetchRequests = {
   },
 
   getAllData(id) {
-    return [fetchRequests.getTraveler(id), fetchRequests.getTrips(), fetchRequests.getDestinations()]
+    return [fetchRequests.getTraveler(id), fetchRequests.getTrips(), fetchRequests.getDestinations()];
+  },
+
+  getAgentData() {
+    return [fetchRequests.getAllTravelers(), fetchRequests.getTrips(), fetchRequests.getDestinations()];
   },
 
   postTrip(obj) {

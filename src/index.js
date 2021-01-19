@@ -1,6 +1,7 @@
 import User from './User';
 import Trip from './Trip';
 import Destination from './Destination';
+import Agent from './Agent'
 
 import fetchRequests from './fetchRequests';
 import domUpdates from './domUpdates';
@@ -71,7 +72,9 @@ function checkLoginCredentials() {
     id = username.match(/\d+/)[0]
   }
 
-  if(!id || username !== `traveler${id}`) {
+  if (username === 'agent' && password === 'travel2020'){
+    loadAgentTools()
+  } else if(!id || username !== `traveler${id}`) {
     domUpdates.displayLoginError('LOGIN FAILED\ninvalid username');
   } else if (!password === 'travel2020') {
     domUpdates.displayLoginError('LOGIN FAILED\ninvalid password');
@@ -163,4 +166,17 @@ function updateFormDOM() {
     domUpdates.displayCostMessage(trip)
   }
   domUpdates.updatePreview(destinationPreview, destinationList, destinations)
+}
+
+function loadAgentTools() {
+  Promise.all(fetchRequests.getAgentData())
+    .then(responses => {
+      destinations = responses[2].destinations.map(data => new Destination(data));
+      loginPage.classList.toggle('hidden');
+      main.classList.toggle('hidden');
+      sidebar.classList.toggle('hidden');
+      user = new Agent(responses[0].travelers, responses[1].trips, destinations);
+      displayAllTrips()
+      domUpdates.displayAgentDOM(user, sidebar);
+    });
 }
