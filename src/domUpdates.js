@@ -95,11 +95,13 @@ const domUpdates = {
 
   displayAgentDOM(agent, sidebar) {
     sidebar.insertAdjacentHTML('afterbegin',
-    `<h1>GROSS INCOME THIS YEAR: ${agent.incomeThisYear}</h1>
-    <h3>there are ${agent.currentTravelers} travelers on trips right now</h3>`)
+    `<section class="agent-info">
+      <h2>GROSS INCOME THIS YEAR: ${agent.incomeThisYear}</h2>
+      <h3>there are ${agent.currentTravelers} travelers on trips right now</h3>
+    </section>`);
 
-    this.addTripIDDisplay()
-    this.addIDOptions()
+    this.addTripIDDisplay();
+    this.addIDOptions();
   },
 
   addTripIDDisplay() {
@@ -107,7 +109,19 @@ const domUpdates = {
     infoBlocks.forEach(block => block.insertAdjacentHTML('afterbegin', `<h4>${block.parentNode.id}</h4>`))
   },
 
+  updateUserSpending(user, id) {
+    const userSpending = document.querySelector('.user-spending');
+    if(id > 0) {
+      let thisUser = user.allUsers.find(user => user.id === id);
+
+      userSpending.innerHTML = `${thisUser.name} has spent $${thisUser.getCostForYear()} on travel this year`
+    } else {
+      userSpending.innerHTML = 'no user selected'
+    }
+  },
+
   addIDOptions() {
+    document.querySelector('.id-select').innerHTML = ''
     document.querySelectorAll('.trip--wrapper').forEach(trip => {
       document.querySelector('.id-select').insertAdjacentHTML('beforeend', `<option value="${trip.id}">${trip.id}</option>`);
     })

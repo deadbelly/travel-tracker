@@ -28,23 +28,24 @@
         <input aria-label="number-of-travelers-select" type="number" class="number-of-travelers" class="num-travelers new-trip-form__input" value="1" min="1">
         <h3 aria-label="estimated-cost-of-trip" class="cost-message">waiting to calculate cost...</h3>
       </form>
-      <div class="filter-options hidden">
+      <section class="filter-options hidden">
         <label for="name-filter">Filter By Name</label>
         <input aria-label="filter-by-name" type="text" name="name-filter" class="filter-by-name">
+        <p class='user-spending'>no user selected</p>
         <label for="show-only-pending">Only Pending Trips</label>
-        <input type="checkbox" name="show-only-pending" class="show-only-pending">
+        <input type="checkbox" name="show-only-pending" class="show-only-pending" checked>
         <label for="show-only-upcoming">Only Upcoming Trips</label>
         <input type="checkbox" name="show-only-upcoming" class="show-only-upcoming">
         <button type="button" class="filter-button">filter results</button>
-      </div>
-      <div class="agent-tools hidden">
+      </section>
+      <section class="agent-tools hidden">
         <label for="id-select">TRIP ID</label>
         <select aria-label="select-trip-id" type="number" class="id-select" name="id-select"></select>
         <label for="suggested-activities">suggest activities</label>
-        <input aria-label="add-suggested-activities" type="text" name="suggested-activities">
-        <button aria-label="approve-and/or-modify-trip" type="button" name="approve">approve and modify</button>
-        <button aria-label="reject-or-remove-trip" type="button" name="reject">reject and remove</button>
-      </div>
+        <input aria-label="add-suggested-activities" type="text" name="suggested-activities" class="suggested-activities">
+        <button aria-label="approve-and/or-modify-trip" type="button" name="approve" class="approve-button">approve and modify</button>
+        <button aria-label="reject-or-remove-trip" type="button" name="reject" class="reject-button">reject and remove</button>
+      </section>
       <div class="sidebar-btn-area">
         <button class="sidebar-btn book-trip-button hidden"><img src="./images/ticket-icon.png" alt="plane tickets"><br>book it!</button>
         <button class="sidebar-btn back-button hidden"><img src="./images/arrow.png" alt="a back arrow"><br>back</button>

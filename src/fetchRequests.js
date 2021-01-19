@@ -45,6 +45,23 @@ const fetchRequests = {
     })
     .then(response => response.json())
       .catch(err => domUpdates.displayFormError(err));
+  },
+
+  deleteTrip(id) {
+    fetch(`http://localhost:3001/api/v1/trips/${id}`, {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+    })
+  },
+
+  approveAndModifyTrip(obj) {
+    return fetch('http://localhost:3001/api/v1/updateTrip', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(obj)
+    })
+    .then(response => response.json())
+      .catch(err => domUpdates.displayFormError(err));
   }
 }
 

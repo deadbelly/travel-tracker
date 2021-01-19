@@ -38,11 +38,17 @@ const bookTripButton = document.querySelector('.book-trip-button');
 const backButton = document.querySelector('.back-button')
 
 const filterOptions = document.querySelector('.filter-options');
-const agentTools = document.querySelector('.agent-tools');
 const showPending = document.querySelector('.show-only-pending');
 const showUpcoming = document.querySelector('.show-only-upcoming');
 const filterByName = document.querySelector('.filter-by-name');
 const filterButton = document.querySelector('.filter-button');
+
+const agentTools = document.querySelector('.agent-tools');
+const idSelect = document.querySelector('.id-select');
+const suggestedActivities = document.querySelector('.suggested-activities')
+const rejectButton = document.querySelector('.reject-button');
+const approveButton = document.querySelector('.approve-button');
+
 
 loginButton.addEventListener('click', fetchAndLoadDataModel)
 startDateInput.addEventListener('input', setEndMin)
@@ -51,6 +57,8 @@ planTripButton.addEventListener('click', toggleFormView)
 bookTripButton.addEventListener('click', bookTrip);
 backButton.addEventListener('click', toggleFormView);
 filterButton.addEventListener('click', filterTrips);
+rejectButton.addEventListener('click', rejectAndRemove);
+approveButton.addEventListener('click', approveAndModify);
 
 function fetchAndLoadDataModel() {
   event.preventDefault;
@@ -176,6 +184,8 @@ function updateFormDOM() {
   domUpdates.updatePreview(destinationPreview, destinationList, destinations)
 }
 
+///AGENT STUFF
+
 function loadAgentTools() {
   Promise.all(fetchRequests.getAgentData())
     .then(responses => {
@@ -203,12 +213,50 @@ function filterTrips() {
     user.upcomingFilter = false;
   }
   if(filterByName.value) {
-    user.userSelect = user.allUsers.find(user => user.name.includes(filterByName.value)).id
+    user.userSelect = user.allUsers.find(user => user.name.includes(filterByName.value)).id;
   } else {
     user.userSelect = 0
   }
 
+
   user.trips = user.generateTrips()
+  domUpdates.updateUserSpending(user, user.userSelect);
   domUpdates.clearTrips(tripList)
   displayAllTrips()
+  domUpdates.addTripIDDisplay()
+  domUpdates.addIDOptions()
+}
+
+function rejectAndRemove() {
+  fetchRequests.deleteTrip(idSelect.value);
+  Promise.all(fetchRequests.getAgentData())
+    .then(responses => {
+            destinations = responses[2].destinations.map(data => new Destination(data));
+      user = new Agent(responses[0].travelers, responses[1].trips, destinations);
+      domUpdates.displayAgentDOM(user, sidebar);
+      filterTrips();
+    });
+}
+
+function getApprovalObject() {
+  let approvalObj = {id: parseInt(idSelect.value), status: 'approved'};
+
+  if (suggestedActivities.value) {
+    approvalObj.suggestedActivities = suggestedActivities.value.split(', ');
+  }
+
+  return approvalObj;
+}
+
+function approveAndModify() {
+  fetchRequests.approveAndModifyTrip(getApprovalObject()).then(response => {
+    Promise.all(fetchRequests.getAgentData())
+      .then(responses => {
+        destinations = responses[2].destinations.map(data => new Destination(data));
+        user = new Agent(responses[0].travelers, responses[1].trips, destinations);
+        document.querySelector('.agent-info').remove();
+        domUpdates.displayAgentDOM(user, sidebar);
+        filterTrips();
+      });
+  });
 }
