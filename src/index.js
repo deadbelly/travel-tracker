@@ -32,10 +32,9 @@ const startDateInput = document.querySelector('.trip-start');
 const endDateInput = document.querySelector('.trip-end');
 const formInputs = document.querySelectorAll('.new-trip-form__input');
 const destinationList = document.querySelector('.destination-list')
-const travelersInput = document.querySelector('.num-travelers');
+const travelersInput = document.querySelector('.number-of-travelers');
 const bookTripButton = document.querySelector('.book-trip-button');
 const backButton = document.querySelector('.back-button')
-
 
 loginButton.addEventListener('click', fetchAndLoadDataModel)
 startDateInput.addEventListener('input', setEndMin)
@@ -46,20 +45,15 @@ backButton.addEventListener('click', toggleFormView)
 
 function fetchAndLoadDataModel() {
   event.preventDefault;
-  const username = usernameInput.value;
-  const id = username.match(/\d+/)[0]
-  const password = passwordInput.value;
 
-  Promise.all(fetchRequests.getAllData(id))
+  Promise.all(fetchRequests.getAllData(checkLoginCredentials()))
     .then(responses => {
-      if (checkLoginCredentials(responses[0], username, password, id)) {
+      if (!responses[0].message) {
         initializeDOM(responses[0], responses[1], responses[2])
-      } else if (responses[0].message) {
-        domUpdates.displayLoginError('LOGIN FAILED\ninvalid username');
       } else {
-        domUpdates.displayLoginError('LOGIN FAILED\ninvalid password');
+        domUpdates.displayLoginError('LOGIN FAILED\ninvalid username');
       }
-    });
+  });
 }
 
 function generateClasses(userData, tripData, destinationData) {
@@ -68,15 +62,27 @@ function generateClasses(userData, tripData, destinationData) {
 }
 
 
-function checkLoginCredentials(response, username, password, id) {
-  if(username === `traveler${id}` && password === 'travel2020' && response.id == id) {
-    return true;
-  };
+function checkLoginCredentials() {
+  const username = usernameInput.value;
+  const password = passwordInput.value;
+  let id;
+
+  if (username.match(/\d+/) !== null) {
+    id = username.match(/\d+/)[0]
+  }
+
+  if(!id || username !== `traveler${id}`) {
+    domUpdates.displayLoginError('LOGIN FAILED\ninvalid username');
+  } else if (!password === 'travel2020') {
+    domUpdates.displayLoginError('LOGIN FAILED\ninvalid password');
+  } else {
+    return id
+  }
 }
 
 function displayAllTrips() {
   user.trips.forEach(trip => {
-    domUpdates.displayTrip(trip, destinations, tripList)
+    domUpdates.displayTrip(trip, destinations, tripList);
   });
 }
 
@@ -97,7 +103,7 @@ function toggleFormView() {
 function bookTrip() {
   event.preventDefault()
   if (!startDateInput.value || !endDateInput.value) {
-    domUpdates.displayFormError('please fill out all required inputs')
+    domUpdates.displayFormError('please fill out all required inputs');
   }
   fetchRequests.getTrips().then(response => {
     fetchRequests.postTrip(getObjectFromInputs(response)).then(response => {
@@ -111,20 +117,20 @@ function bookTrip() {
 }
 
 function displayTrips() {
-  domUpdates.clearTrips(tripList)
+  domUpdates.clearTrips(tripList);
   displayAllTrips();
 }
 
 function initializeDOM(userData, recipeData, destinationData) {
-  generateClasses(userData, recipeData, destinationData)
-  displayTrips()
+  generateClasses(userData, recipeData, destinationData);
+  displayTrips();
   domUpdates.displaySidebar(user, sidebar);
   loginPage.classList.toggle('hidden');
   main.classList.toggle('hidden');
   sidebar.classList.toggle('hidden');
-  setStartMin()
-  planTripButton.classList.toggle('hidden')
-  domUpdates.displayDestinationOptions(destinations, document.querySelector('.destination-list'))
+  setStartMin();
+  planTripButton.classList.toggle('hidden');
+  domUpdates.displayDestinationOptions(destinations, document.querySelector('.destination-list'));
 }
 
 function getObjectFromInputs(trips) {

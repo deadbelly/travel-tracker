@@ -4,20 +4,20 @@ const domUpdates = {
     const destination = trip.findDestination(destinations);
 
     tripList.insertAdjacentHTML('beforeend',
-    `<article class="trip">
-      <button>
-        <img src="${destination.image}"  alt="${destination.alt}">
-        <div class="info-block">
+    `<article aria-label="trip-details" class="trip">
+      <div tabindex="0" class="trip--wrapper">
+        <img class="trip__img" src="${destination.image}"  alt="${destination.alt}">
+        <div class="trip__info-block">
           <h2>${destination.destination}</h2>
           <h3 class="${trip.returnStatusInfo()}">${trip.returnStatusInfo()}</h3>
-          <div class="details">
+          <div class="trip__info-block--details">
             <p>start date:  ${trip.date.toDateString()}</p>
             <p>duration:  ${trip.duration} days</p>
             <p>travelers:   ${trip.travelers}</p>
             <p>cost:  $${trip.calculateCost(destinations).afterAgent}</p>
           </div>
         <div>
-      </button>
+      </div>
     </article>`);
   },
 
