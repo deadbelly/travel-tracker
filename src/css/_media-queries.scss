@@ -1,0 +1,55 @@
+@media only screen and (min-width: 740px) {
+  body {
+    @include displayFlex(row, flex-start, nowrap);
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .trip__info-block {
+    @include setDimensions(auto, 50%);
+  }
+}
+
+@media only screen and (max-width: 740px) {
+  body {
+    display: grid;
+    grid-template-columns: 1fr;
+    // grid-template-rows: 1fr 1fr;
+  }
+
+  h1 {
+    font-size: 2vmin;
+  }
+
+  .sidebar {
+    @include setDimensions(auto, 100%);
+  }
+
+  .prof-pic{
+    position: relative;
+    @include setDimensions(auto, 20%);
+  }
+
+  main {
+    @include setDimensions(auto, 100%);
+  }
+
+  button {
+    @include setDimensions(20px, auto);
+  }
+
+  .trip {
+    @include setDimensions(30%, 100%);
+    &:hover, &:focus-within{
+      @include setDimensions(60%, 100%);
+    }
+  }
+
+  .desktop-title {
+    display: none;
+  }
+
+  .preview {
+  display: none;
+  }
+}

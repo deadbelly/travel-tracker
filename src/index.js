@@ -32,10 +32,9 @@ const startDateInput = document.querySelector('.trip-start');
 const endDateInput = document.querySelector('.trip-end');
 const formInputs = document.querySelectorAll('.new-trip-form__input');
 const destinationList = document.querySelector('.destination-list')
-const travelersInput = document.querySelector('.num-travelers');
+const travelersInput = document.querySelector('.number-of-travelers');
 const bookTripButton = document.querySelector('.book-trip-button');
 const backButton = document.querySelector('.back-button')
-
 
 loginButton.addEventListener('click', fetchAndLoadDataModel)
 startDateInput.addEventListener('input', setEndMin)
@@ -159,6 +158,7 @@ function setStartMin() {
 }
 
 function updateFormDOM() {
+  console.log(destinationList)
   if (startDateInput.value && endDateInput.value) {
     const trip = new Trip(getObjectFromInputs({trips: []}), destinations)
     domUpdates.displayCostMessage(trip)

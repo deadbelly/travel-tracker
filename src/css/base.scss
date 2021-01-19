@@ -2,6 +2,7 @@
 @import 'main';
 @import 'login-page';
 @import 'sidebar';
+@import 'media-queries';
 
 html {
   background-color: 	$wash-color;
@@ -24,7 +25,6 @@ body {
   background-color: $background-color;
   opacity: 95%;
   align-self: center;
-  display: flex;
   height: 98vh;
   width: 99%;
 }
