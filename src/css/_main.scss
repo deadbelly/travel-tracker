@@ -41,7 +41,7 @@ main {
 }
 
 .trip__info-block {
-  font-family: "Lato", sans-serif;
+  font-family: $font;
   position: absolute;
   bottom: 5%;
   right: 3%;
@@ -74,7 +74,7 @@ main {
 
 .cost-details{
   align-self: center;
-  font-family: "Lato", sans-serif;
+  font-family: $font;
   background-color: $block-color;
   color: $block-font-color;
   opacity: 85%;

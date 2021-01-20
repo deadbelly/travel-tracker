@@ -21,8 +21,8 @@ class User {
     return tripData.sort((a, b) => b.date - a.date);
   }
 
-  filterByPending(tripsArray) {
-    return tripsArray.filter(trip => trip.status === 'pending');
+  filterByStatus(tripsArray, status) {
+    return tripsArray.filter(trip => trip.status === status);
   }
 
   filterByThisYear(tripsArray) {
@@ -30,10 +30,10 @@ class User {
   }
 
   getCostForYear() {
-  return this.filterByThisYear(this.filterByPending(this.trips)).reduce((totalCost, trip) => {
-    totalCost += trip.cost.afterAgent;
-    return totalCost;
-  }, 0);
+    return this.filterByThisYear(this.filterByStatus(this.trips, 'approved')).reduce((totalCost, trip) => {
+      totalCost += trip.cost.afterAgent;
+      return totalCost;
+    }, 0);
   }
 }
 

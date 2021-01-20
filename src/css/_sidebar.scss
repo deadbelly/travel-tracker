@@ -29,7 +29,7 @@
   @include displayFlex(column, space-around, nowrap);
   & input {
     @include setDimensions(auto, 80%);
-    font-family: "Lato", sans-serif;
+    font-family: $font;
     font-size: 2vmin;
   }
 }

@@ -3,10 +3,12 @@
 @import 'login-page';
 @import 'sidebar';
 @import 'media-queries';
+@import 'agent-dom';
+@import 'normalize';
 
 html {
   background-color: 	$wash-color;
-  font-family: "Lato", sans-serif;
+  font-family: $font;
 }
 
 h1 {

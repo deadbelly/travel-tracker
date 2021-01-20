@@ -1,0 +1,14 @@
+.filter-options, .agent-tools {
+  @include displayFlex(column, center, nowrap);
+  & button {
+    border-style: solid;
+    border-color: $block-color;
+    margin: 5%;
+    @include setDimensions(auto, 80%);
+  }
+}
+
+.agent-info{
+  align-items: center;
+  @include displayFlex(column, center, nowrap);
+}

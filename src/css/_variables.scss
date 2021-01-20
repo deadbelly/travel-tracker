@@ -4,6 +4,8 @@ $pending-color: #F9D1CB;
 $block-color: black;
 $block-font-color: white;
 
+$font: "Lato", sans-serif;
+
 
 @mixin setDimensions($height, $width) {
   height: $height;

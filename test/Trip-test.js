@@ -68,6 +68,9 @@ describe('Trip', () => {
     expect(trips[0].returnStatusInfo()).to.eq('past');
     expect(trips[1].returnStatusInfo()).to.eq('pending');
     expect(trips[2].returnStatusInfo()).to.eq('upcoming');
+
+    trips[2].date = "2021/01/18";
+    expect(trips[2].returnStatusInfo()).to.eq('in progress');
   });
 
   it('should have an empty array for suggested activities', () => {
