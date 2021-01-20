@@ -4,7 +4,7 @@ const domUpdates = {
     const destination = trip.findDestination(destinations);
 
     tripList.insertAdjacentHTML('beforeend',
-    `<article aria-label="trip-details" class="trip">
+      `<article aria-label="trip-details" class="trip">
       <div tabindex="0" class="trip--wrapper" id="${trip.id}">
         <img class="trip__img" src="${destination.image}"  alt="${destination.alt}">
         <div class="trip__info-block">
@@ -25,9 +25,9 @@ const domUpdates = {
     tripList.innerHTML = ''
   },
 
-  displaySidebar(user, sidebar){
+  displaySidebar(user, sidebar) {
     sidebar.insertAdjacentHTML('afterbegin',
-    `<img class="prof-pic" src="./images/profpic.png" alt="user's profile picture">
+      `<img class="prof-pic" src="./images/profpic.png" alt="user's profile picture">
     <h1 class="user-name">${user.name}</h1>
     <h2 class="traveler-type">${user.travelerType}</h2>
     <div class="sidebar-content welcome-message">
@@ -48,7 +48,7 @@ const domUpdates = {
 
   displayNewTripForm(destinations) {
     document.querySelector('.new-trip-form').insertAdjacentHTML('afterbegin',
-    `<select class="destination-list" name="">
+      `<select class="destination-list" name="">
     </select>
     <input type="date" class="trip-start" min="${new Date().toISOString().substring(0, 10)}">
     <input type="date" class="trip-end" min="${new Date().toISOString().substring(0, 10)}">
@@ -74,7 +74,7 @@ const domUpdates = {
   },
 
   updatePreview(destinationPreview, destinationList, destinations) {
-    if(destinations) {
+    if (destinations) {
       const preview = destinations.find(destination => destination.id == destinationList.value)
       destinationPreview.innerHTML =
       `<div class="preview" style="background-image: url(${preview.image});">
@@ -87,22 +87,19 @@ const domUpdates = {
     }
   },
 
-  displayLoginError(error) {
-    document.querySelector('.login-errors').innerText = error;
+  displayError(error, zone) {
+    document.querySelector(`.${zone}-errors`).innerText = error
   },
 
-  displayFormError(error) {
-    document.querySelector('.cost-message').innerText = error
-  },
-
-  clearErrors(){
-    document.querySelector('.cost-message').innerText = 'waiting to calculate cost...'
+  clearErrors() {
+    document.querySelector('.form-message').innerText = 'waiting to calculate cost...'
     document.querySelector('.login-errors').innerText = ''
+    document.querySelector('.agent-errors').innerText = ''
   },
 
   displayAgentDOM(agent, sidebar) {
     sidebar.insertAdjacentHTML('afterbegin',
-    `<section class="agent-info">
+      `<section class="agent-info">
       <h3>GROSS INCOME THIS YEAR: $${agent.incomeThisYear}</h3>
       <h3>there are ${agent.currentTravelers} travelers on trips right now</h3>
     </section>`);
@@ -118,7 +115,7 @@ const domUpdates = {
 
   updateUserSpending(user, id) {
     const userSpending = document.querySelector('.user-spending');
-    if(id > 0) {
+    if (id > 0) {
       let thisUser = user.allUsers.find(user => user.id === id);
 
       userSpending.innerHTML = `${thisUser.name} has spent $${thisUser.getCostForYear()} on travel this year`

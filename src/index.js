@@ -52,7 +52,7 @@ const approveButton = document.querySelector('.approve-button');
 
 loginButton.addEventListener('click', fetchAndLoadDataModel);
 startDateInput.addEventListener('input', setEndMin);
-formInputs.forEach(input => addEventListener('input', updateFormDOM));
+formInputs.forEach(input => input.addEventListener('input', updateFormDOM));
 planTripButton.addEventListener('click', toggleFormView);
 bookTripButton.addEventListener('click', bookTrip);
 backButton.addEventListener('click', toggleFormView);
@@ -71,9 +71,9 @@ function fetchAndLoadDataModel() {
       if (!responses[0].message) {
         initializeDOM(responses[0], responses[1], responses[2]);
       } else {
-        domUpdates.displayLoginError('LOGIN FAILED\ninvalid username');
+        domUpdates.displayError('LOGIN FAILED\ninvalid username', 'login');
       }
-  });
+    });
 }
 
 function generateClasses(userData, tripData, destinationData) {
@@ -91,12 +91,12 @@ function checkLoginCredentials() {
     id = username.match(/\d+/)[0];
   }
 
-  if (username === 'agent' && password === 'travel2020'){
+  if (username === 'agent' && password === 'travel2020') {
     loadAgentTools();
-  } else if(!id || username !== `traveler${id}`) {
-    domUpdates.displayLoginError('LOGIN FAILED\ninvalid username');
+  } else if (!id || username !== `traveler${id}`) {
+    domUpdates.displayError('LOGIN FAILED\ninvalid username', 'login');
   } else if (!password === 'travel2020') {
-    domUpdates.displayLoginError('LOGIN FAILED\ninvalid password');
+    domUpdates.displayError('LOGIN FAILED\ninvalid password', 'login');
   } else {
     return id;
   }
@@ -154,7 +154,7 @@ function toggleFormView() {
   tripList.classList.toggle('hidden');
   backButton.classList.toggle('hidden');
   domUpdates.clearErrors();
-  if(tripList.classList.contains('hidden')) {
+  if (tripList.classList.contains('hidden')) {
     domUpdates.updatePreview(destinationPreview, destinationList, destinations);
   }
 }
@@ -208,7 +208,7 @@ function updateAgentDOM() {
 function bookTrip() {
   event.preventDefault();
   if (!startDateInput.value || !endDateInput.value) {
-    domUpdates.displayFormError('please fill out all required inputs');
+    domUpdates.displayError('please fill out all required inputs', 'form');
   }
   fetchRequests.getTrips().then(response => {
     fetchRequests.postTrip(getObjectFromInputs(response)).then(response => {
@@ -229,7 +229,7 @@ function getObjectFromInputs(trips) {
     destinationID: parseInt(destinationList.value),
     travelers: travelersInput.value,
     date: new Date(startDateInput.value).toISOString().substring(0, 10).replaceAll('-', '/'),
-    duration: (new Date(endDateInput.value).getTime() - new Date(startDateInput.value).getTime())/(1000*60*60*24),
+    duration: (new Date(endDateInput.value).getTime() - new Date(startDateInput.value).getTime()) / (1000 * 60 * 60 * 24),
     status: 'pending',
     suggestedActivities: []
   };
@@ -241,12 +241,12 @@ function checkFilterBoxes() {
   } else {
     user.pendingFilter = false;
   }
-  if(showUpcoming.checked) {
+  if (showUpcoming.checked) {
     user.upcomingFilter = true;
   } else {
     user.upcomingFilter = false;
   }
-  if(filterByName.value) {
+  if (filterByName.value) {
     user.userSelect = user.allUsers.find(user => user.name.includes(filterByName.value)).id;
   } else {
     user.userSelect = 0;

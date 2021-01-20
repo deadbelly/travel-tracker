@@ -26,7 +26,7 @@
         <input aria-label="end-date-select" type="date" class="trip-end new-trip-form__input" name="trip-end">
         <label for="number-of-travelers">Number of Travlers</label>
         <input aria-label="number-of-travelers-select" type="number" class="number-of-travelers" class="num-travelers new-trip-form__input" value="1" min="1">
-        <h3 aria-label="estimated-cost-of-trip" class="cost-message">waiting to calculate cost...</h3>
+        <h3 aria-label="estimated-cost-of-trip" class="cost-message form-errors">waiting to calculate cost...</h3>
       </form>
       <section class="filter-options hidden">
         <label for="name-filter">Filter By Name</label>
@@ -43,6 +43,7 @@
         <select aria-label="select-trip-id" type="number" class="id-select" name="id-select"></select>
         <label for="suggested-activities">suggest activities</label>
         <input aria-label="add-suggested-activities" type="text" name="suggested-activities" class="suggested-activities">
+        <p class="agent-errors"></p>
         <button aria-label="approve-and/or-modify-trip" type="button" name="approve" class="approve-button">approve and modify</button>
         <button aria-label="reject-or-remove-trip" type="button" name="reject" class="reject-button">reject and remove</button>
       </section>

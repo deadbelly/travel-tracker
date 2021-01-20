@@ -32,15 +32,15 @@ class Agent {
       return [...acc, ...user.trips];
     }, []);
 
-    if(this.upcomingFilter) {
+    if (this.upcomingFilter) {
       trips = this.filterByUpcoming(trips);
     }
 
-    if(this.pendingFilter) {
+    if (this.pendingFilter) {
       trips = this.filterByStatus(trips, 'pending');
     }
 
-    if(this.userSelect > 0) {
+    if (this.userSelect > 0) {
       trips = this.filterByUser(trips);
     }
 
