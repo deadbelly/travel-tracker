@@ -103,7 +103,7 @@ const domUpdates = {
   displayAgentDOM(agent, sidebar) {
     sidebar.insertAdjacentHTML('afterbegin',
     `<section class="agent-info">
-      <h2>GROSS INCOME THIS YEAR: ${agent.incomeThisYear}</h2>
+      <h3>GROSS INCOME THIS YEAR: $${agent.incomeThisYear}</h3>
       <h3>there are ${agent.currentTravelers} travelers on trips right now</h3>
     </section>`);
 

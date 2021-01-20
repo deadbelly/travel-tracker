@@ -53,9 +53,9 @@ class Agent {
   }
 
   getGrossIncome() {
-    return 0.1 * (this.allUsers.reduce((acc, user) => {
+    return Math.floor(0.1 * (this.allUsers.reduce((acc, user) => {
       return acc + user.getCostForYear();
-    }, 0));
+    }, 0)));
   }
 }
 
