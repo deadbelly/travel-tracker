@@ -79,5 +79,19 @@ describe('Agent', () => {
     expect(agent.filterByUpcoming(trips)).to.eql([]);
   });
 
-  it
+  it('should tell how many users are on trips right now', () => {
+    expect(agent.findTravelingUsers()).to.eql([]);
+    agent.allUsers[0].trips[0].date = '2021/01/18';
+    expect(agent.findTravelingUsers()).to.eql([1]);
+  });
+
+  it('should generate a list of trips based on it\'s properties', () => {
+    expect(agent.generateTrips()).to.eql([trips[1]]);
+    agent.pendingFilter = false;
+    expect(agent.generateTrips().length).to.eq(2);
+    agent.upcomingFilter = true;
+    expect(agent.generateTrips()).to.eql([trips[2]]);
+    agent.pendingFilter = true;
+    expect(agent.generateTrips()).to.eql([]);
+  });
 });
