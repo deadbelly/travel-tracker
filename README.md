@@ -4,7 +4,7 @@ Travel Tracker is project I completed for the [Turing School of Software and Des
 ## Contributors
 This project was completed by me, [Boone Epstein](https://github.com/deadbelly). I used a [webpack starter kit](https://github.com/turingschool-examples/webpack-starter-kit) provided to me by Turing. My cohortmate [Jeff Kersting](https://github.com/JeffKersting) review two of my pull requests and gave me some suggestions for refactoring. 
 
-The sample profile photo was taken by [Nik MacMillan]([https://stocksnap.io/author/35173"](https://stocksnap.io/author/35173%22)), and the icons were made by [Freepik]([https://www.flaticon.com/authors/freepik](https://www.flaticon.com/authors/freepik%22)).
+The sample profile photo was taken by [Nik MacMillan](https://stocksnap.io/author/35173%22), and the icons were made by [Freepik](https://www.flaticon.com/authors/freepik](https://www.flaticon.com/authors/freepik%22)).
 
 ## Technologies Used 
 - `Mocha` and `Chai` for testing.
